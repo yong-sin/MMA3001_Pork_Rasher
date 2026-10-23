@@ -10,6 +10,8 @@ This folder contains the training, evaluation and improvement experiments for YO
 - `MMA3001_v1_checking.ipynb` - Model comparison, confidence threshold analysis and final model selection.
 - `MMA3001_v1_inference.ipynb` - Package inspection using the selected no-mosaic model, including bounding-box visualisation and automated tests.
 - `MMA3001_v1_learning_rate.ipynb` - AdamW learning-rate experiments and validation comparisons for Dataset V1.
+- `MMA3001_v1_resolution_960.ipynb` — Investigates 960-pixel training and compares validation performance with the 640-trained no-mosaic model.
+   
 
 
 ## Dataset Preparation
