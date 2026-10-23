@@ -15,8 +15,9 @@ Run the following commands from the repository root in an environment with Pytho
 ```
 bash
 
+
 python -m pip install pdoc pyyaml ultralytics
-pdoc ./inspection.py ./src/dataset_preparation.py -o ./docs
+PYTHONPATH=./src python -m pdoc inspection dataset_preparation -o docs
 ```
 
 Rebuild the pages after editing either source file so the documentation stays in sync with the code.
