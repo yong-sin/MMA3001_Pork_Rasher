@@ -1,0 +1,11 @@
+# Python packages used in the MMA3001 pork rasher project.
+# Colab provides some packages by default; install compatible versions for your runtime.
+ultralytics
+torch
+numpy
+pandas
+matplotlib
+Pillow
+PyYAML
+pytest
+pdoc
