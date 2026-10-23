@@ -116,7 +116,7 @@ The reorganised training notebooks keep retraining **disabled by default**, usin
 | Compare V1 learning rates | [`V1 Learning Rate`](notebooks/v1/MMA3001_v1_learning_rate_exploration.ipynb) |
 | Compare V1 models, thresholds and final test behaviour | [`V1 Checking`](notebooks/v1/MMA3001_v1_checking.ipynb) |
 | Display an input image and its annotated detection | [`V1 Inference`](notebooks/v1/MMA3001_v1_inference.ipynb) |
-| Investigate input-resolution effects | [V1 Resolution 960](notebooks/v1/MMA3001_v1_resolution_960.ipynb) |
+| Investigate input-resolution effects | [`V1 Resolution_960`](notebooks/v1/MMA3001_v1_resolution_960.ipynb) |
    
 
 Use the existing weights to reproduce evaluations without repeating 30–50 epochs of training. For a new training experiment, use the appropriate training notebook and explicitly enable training after configuring the dataset and GPU runtime.
