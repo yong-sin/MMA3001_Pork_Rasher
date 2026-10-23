@@ -12,10 +12,7 @@ The HTML pages explain the functions, parameters, return values, and implementat
 
 Run the following commands from the repository root in an environment with Python and the required packages:
 
-```
-bash
-
-
+```bash
 python -m pip install pdoc pyyaml ultralytics
 PYTHONPATH=./src python -m pdoc inspection dataset_preparation -o docs
 ```
