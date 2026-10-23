@@ -62,7 +62,7 @@ The shared folder is organised for the nine training configurations covered by t
 | V1 | YOLOv8n no mosaic, AdamW LR 0.0005, 30 epochs | Learning-rate experiment |
 | V1 | YOLOv8n no mosaic, AdamW LR 0.0005, 50 epochs | Learning-rate/epoch experiment |
 
-Download the checkpoint matching the notebook you are running and update its weights/best.pt path. The notebook paths originally pointed to Google Drive folders used during development, so they are not automatically valid on another account. The 960-pixel experiment is represented among the model runs; the current repository does not have a separate 960-pixel notebook.
+Download the checkpoint matching the notebook you are running and update its weights/best.pt path. The notebook paths originally pointed to Google Drive folders used during development, so they are not automatically valid on another account. 
 
 ### Selected model for the inspection demonstration
 The [`MMA3001_v1_inference.ipynb`](notebooks/v1/MMA3001_v1_inference.ipynb) demonstration uses the V1 YOLOv8n no-mosaic model at 640 px with a confidence threshold of 0.201. This is the selected model for the inspection demonstration, not a claim that it is the best model on all metrics.
@@ -116,6 +116,8 @@ The reorganised training notebooks keep retraining **disabled by default**, usin
 | Compare V1 learning rates | [`V1 Learning Rate`](notebooks/v1/MMA3001_v1_learning_rate_exploration.ipynb) |
 | Compare V1 models, thresholds and final test behaviour | [`V1 Checking`](notebooks/v1/MMA3001_v1_checking.ipynb) |
 | Display an input image and its annotated detection | [`V1 Inference`](notebooks/v1/MMA3001_v1_inference.ipynb) |
+| Investigate input-resolution effects | [V1 Resolution 960](notebooks/v1/MMA3001_v1_resolution_960.ipynb) |
+   
 
 Use the existing weights to reproduce evaluations without repeating 30–50 epochs of training. For a new training experiment, use the appropriate training notebook and explicitly enable training after configuring the dataset and GPU runtime.
 
