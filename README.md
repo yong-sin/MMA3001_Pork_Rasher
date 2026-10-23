@@ -169,6 +169,9 @@ The experiments are limited by the available Roboflow labels and dataset splits.
 
 Detection confidence is not a calibrated measure of defect certainty. Any practical system would need additional datasets, checks for false alarms and missed defects, and validation across different cameras, lighting conditions and packaging types. The reported results should not be used to make autonomous industrial acceptance or rejection decisions.
 
+## Project Report
+The complete project report is available here: [View MMA3001 Project Report (PDF)](docs/MMA3001_Project_Report.pdf)
+
 ## AI assistance and verification
 ChatGPT provided substantial guidance during coding and documentation, particularly when structuring and revising Python and Colab code, explaining YOLOv8 settings, checking implementation logic, identifying potential bugs, and interpreting errors. It also assisted with dataset-cleaning workflows, organising GitHub folders and commits, drafting concise comments and docstrings, discussing limitations, and improving the clarity and professionalism of the README and other documentation.
 
