@@ -1,0 +1,507 @@
+<!doctype html>
+<html lang="en"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width, initial-scale=1">
+<title>dataset_preparation API documentation</title>
+<style>
+:root {color-scheme:light;--line:#e1e6eb;--soft:#f7f9fb;--text:#27313b;--muted:#65717f;--blue:#175b97;}
+*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;color:var(--text);background:#fff;font:15px/1.6 system-ui,Segoe UI,Arial,sans-serif}
+header{padding:26px 30px;border-bottom:1px solid var(--line)}header h1{font-size:25px;letter-spacing:-.4px;margin:0}header p{max-width:850px;color:var(--muted);margin:7px 0 0}a{color:var(--blue);text-decoration:none}a:hover{text-decoration:underline}
+.layout{display:grid;grid-template-columns:275px minmax(0,1fr);min-height:90vh}aside{background:var(--soft);border-right:1px solid var(--line);padding:25px 20px}aside h2{font-size:13px;text-transform:uppercase;letter-spacing:1px;color:var(--muted);margin:22px 0 8px}aside a{display:block;padding:4px 0;font-size:14px;word-break:break-word}main{max-width:1100px;padding:25px 40px 80px}
+h2{font-size:21px;margin:30px 0 15px}h3{font-size:17px;font-weight:600;margin:0 0 12px}h4{font-size:13px;text-transform:uppercase;letter-spacing:.5px;margin:17px 0 6px}p{margin:6px 0 10px}.function-card{border-top:1px solid var(--line);padding:23px 0 28px;scroll-margin-top:18px}.function-card code{white-space:normal;overflow-wrap:anywhere}code{background:#edf2f6;border-radius:4px;padding:2px 5px;font-family:Consolas,Monaco,monospace;font-size:.9em}.argument{display:flex;gap:18px;border-bottom:1px solid #edf1f5;padding:6px 0}.argument code{flex:0 0 190px;align-self:start}.docbody{max-width:860px}details{margin-top:18px;border:1px solid var(--line);border-radius:7px;overflow:hidden}summary{cursor:pointer;padding:10px 14px;color:var(--blue);font-size:14px;background:var(--soft)}.highlight{padding:13px 18px;overflow-x:auto;margin:0}.highlight pre{margin:0;line-height:1.55;font-size:12.5px}.small-muted{color:var(--muted)}footer{border-top:1px solid var(--line);padding:20px 30px;color:var(--muted);font-size:13px}
+pre { line-height: 125%; }
+td.linenos .normal { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+span.linenos { color: #666666; background-color: transparent; padding-left: 5px; padding-right: 5px; }
+td.linenos .special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+span.linenos.special { color: #000000; background-color: #ffffc0; padding-left: 5px; padding-right: 5px; }
+.highlight .hll { background-color: #ffffcc }
+.highlight { background: #f0f0f0; }
+.highlight .c { color: #60A0B0; font-style: italic } /* Comment */
+.highlight .err { border: 1px solid #F00 } /* Error */
+.highlight .k { color: #007020; font-weight: bold } /* Keyword */
+.highlight .o { color: #666 } /* Operator */
+.highlight .ch { color: #60A0B0; font-style: italic } /* Comment.Hashbang */
+.highlight .cm { color: #60A0B0; font-style: italic } /* Comment.Multiline */
+.highlight .cp { color: #007020 } /* Comment.Preproc */
+.highlight .cpf { color: #60A0B0; font-style: italic } /* Comment.PreprocFile */
+.highlight .c1 { color: #60A0B0; font-style: italic } /* Comment.Single */
+.highlight .cs { color: #60A0B0; background-color: #FFF0F0 } /* Comment.Special */
+.highlight .gd { color: #A00000 } /* Generic.Deleted */
+.highlight .ge { font-style: italic } /* Generic.Emph */
+.highlight .ges { font-weight: bold; font-style: italic } /* Generic.EmphStrong */
+.highlight .gr { color: #F00 } /* Generic.Error */
+.highlight .gh { color: #000080; font-weight: bold } /* Generic.Heading */
+.highlight .gi { color: #00A000 } /* Generic.Inserted */
+.highlight .go { color: #888 } /* Generic.Output */
+.highlight .gp { color: #C65D09; font-weight: bold } /* Generic.Prompt */
+.highlight .gs { font-weight: bold } /* Generic.Strong */
+.highlight .gu { color: #800080; font-weight: bold } /* Generic.Subheading */
+.highlight .gt { color: #04D } /* Generic.Traceback */
+.highlight .kc { color: #007020; font-weight: bold } /* Keyword.Constant */
+.highlight .kd { color: #007020; font-weight: bold } /* Keyword.Declaration */
+.highlight .kn { color: #007020; font-weight: bold } /* Keyword.Namespace */
+.highlight .kp { color: #007020 } /* Keyword.Pseudo */
+.highlight .kr { color: #007020; font-weight: bold } /* Keyword.Reserved */
+.highlight .kt { color: #902000 } /* Keyword.Type */
+.highlight .m { color: #40A070 } /* Literal.Number */
+.highlight .s { color: #4070A0 } /* Literal.String */
+.highlight .na { color: #4070A0 } /* Name.Attribute */
+.highlight .nb { color: #007020 } /* Name.Builtin */
+.highlight .nc { color: #0E84B5; font-weight: bold } /* Name.Class */
+.highlight .no { color: #60ADD5 } /* Name.Constant */
+.highlight .nd { color: #555; font-weight: bold } /* Name.Decorator */
+.highlight .ni { color: #D55537; font-weight: bold } /* Name.Entity */
+.highlight .ne { color: #007020 } /* Name.Exception */
+.highlight .nf { color: #06287E } /* Name.Function */
+.highlight .nl { color: #002070; font-weight: bold } /* Name.Label */
+.highlight .nn { color: #0E84B5; font-weight: bold } /* Name.Namespace */
+.highlight .nt { color: #062873; font-weight: bold } /* Name.Tag */
+.highlight .nv { color: #BB60D5 } /* Name.Variable */
+.highlight .ow { color: #007020; font-weight: bold } /* Operator.Word */
+.highlight .w { color: #BBB } /* Text.Whitespace */
+.highlight .mb { color: #40A070 } /* Literal.Number.Bin */
+.highlight .mf { color: #40A070 } /* Literal.Number.Float */
+.highlight .mh { color: #40A070 } /* Literal.Number.Hex */
+.highlight .mi { color: #40A070 } /* Literal.Number.Integer */
+.highlight .mo { color: #40A070 } /* Literal.Number.Oct */
+.highlight .sa { color: #4070A0 } /* Literal.String.Affix */
+.highlight .sb { color: #4070A0 } /* Literal.String.Backtick */
+.highlight .sc { color: #4070A0 } /* Literal.String.Char */
+.highlight .dl { color: #4070A0 } /* Literal.String.Delimiter */
+.highlight .sd { color: #4070A0; font-style: italic } /* Literal.String.Doc */
+.highlight .s2 { color: #4070A0 } /* Literal.String.Double */
+.highlight .se { color: #4070A0; font-weight: bold } /* Literal.String.Escape */
+.highlight .sh { color: #4070A0 } /* Literal.String.Heredoc */
+.highlight .si { color: #70A0D0; font-style: italic } /* Literal.String.Interpol */
+.highlight .sx { color: #C65D09 } /* Literal.String.Other */
+.highlight .sr { color: #235388 } /* Literal.String.Regex */
+.highlight .s1 { color: #4070A0 } /* Literal.String.Single */
+.highlight .ss { color: #517918 } /* Literal.String.Symbol */
+.highlight .bp { color: #007020 } /* Name.Builtin.Pseudo */
+.highlight .fm { color: #06287E } /* Name.Function.Magic */
+.highlight .vc { color: #BB60D5 } /* Name.Variable.Class */
+.highlight .vg { color: #BB60D5 } /* Name.Variable.Global */
+.highlight .vi { color: #BB60D5 } /* Name.Variable.Instance */
+.highlight .vm { color: #BB60D5 } /* Name.Variable.Magic */
+.highlight .il { color: #40A070 } /* Literal.Number.Integer.Long */
+@media(max-width:760px){.layout{display:block}aside{border-right:0;border-bottom:1px solid var(--line);padding:12px 25px}main{padding:18px 24px 40px}.argument{display:block}.argument code{display:inline-block;margin-bottom:2px}}
+</style></head><body>
+<header><h1>dataset_preparation</h1><p>Prepare Roboflow YOLO datasets for training and evaluation.
+
+Images are grouped by the filename before `.rf.`. When a source appears
+in multiple splits, priority is given to test, then valid, then train.
+Only JPG images are supported.</p></header>
+<div class="layout"><aside><a href="index.html">← API overview</a><h2>Public functions</h2><a href="#source_id">source_id()</a><a href="#image_paths">image_paths()</a><a href="#source_ids">source_ids()</a><a href="#load_class_names">load_class_names()</a><a href="#audit_dataset">audit_dataset()</a><a href="#print_audit">print_audit()</a><a href="#prepare_dataset">prepare_dataset()</a><a href="#assert_preparations_match">assert_preparations_match()</a><h2>Internal helpers</h2><a href="#_hash_file">_hash_file()</a><a href="#_split_fingerprint">_split_fingerprint()</a><a href="#_locate_dataset_root">_locate_dataset_root()</a><a href="#_remove_cross_split_sources">_remove_cross_split_sources()</a><a href="#_reserve_source_for_validation">_reserve_source_for_validation()</a></aside>
+<main><h2>Public API</h2><section id="source_id" class="function-card">
+        <h3><code>source_id(filename: str)</code></h3>
+        <div class="docbody"><p>Get the source ID from a Roboflow filename.</p>
+<h4>Args</h4><div class="argument"><code>filename</code><span>Image filename.</span></div>
+<h4>Returns</h4><p>Filename prefix before `.rf.`, or the full filename if absent.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">source_id</span><span class="p">(</span><span class="n">filename</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the source ID from a Roboflow filename.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        filename: Image filename.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Filename prefix before `.rf.`, or the full filename if absent.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="n">Path</span><span class="p">(</span><span class="n">filename</span><span class="p">)</span><span class="o">.</span><span class="n">name</span><span class="o">.</span><span class="n">split</span><span class="p">(</span><span class="s2">&quot;.rf.&quot;</span><span class="p">,</span> <span class="mi">1</span><span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</details>
+      </section><section id="image_paths" class="function-card">
+        <h3><code>image_paths(root: Path, split: str)</code></h3>
+        <div class="docbody"><p>List the JPG images in a dataset split.</p>
+<h4>Args</h4><div class="argument"><code>root</code><span>Dataset folder.</span></div><div class="argument"><code>split</code><span>`train`, `valid`, or `test`.</span></div>
+<h4>Returns</h4><p>Sorted image paths.</p>
+<h4>Raises</h4><div class="argument"><code>ValueError</code><span>Invalid split name.</span></div><div class="argument"><code>FileNotFoundError</code><span>Image folder is missing.</span></div></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">image_paths</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="n">Path</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;List the JPG images in a dataset split.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        root: Dataset folder.</span>
+<span class="sd">        split: `train`, `valid`, or `test`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Sorted image paths.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Invalid split name.</span>
+<span class="sd">        FileNotFoundError: Image folder is missing.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">if</span> <span class="n">split</span> <span class="ow">not</span> <span class="ow">in</span> <span class="n">SPLITS</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unknown split </span><span class="si">{</span><span class="n">split</span><span class="si">!r}</span><span class="s2">; expected </span><span class="si">{</span><span class="n">SPLITS</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="n">folder</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span> <span class="o">/</span> <span class="n">split</span> <span class="o">/</span> <span class="s2">&quot;images&quot;</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">folder</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing image directory: </span><span class="si">{</span><span class="n">folder</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">folder</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span> <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="n">IMAGE_SUFFIXES</span><span class="p">)</span>
+</pre></div>
+</details>
+      </section><section id="source_ids" class="function-card">
+        <h3><code>source_ids(root: Path, split: str)</code></h3>
+        <div class="docbody"><p>Get the unique source IDs in a split.</p>
+<h4>Args</h4><div class="argument"><code>root</code><span>Dataset folder.</span></div><div class="argument"><code>split</code><span>`train`, `valid`, or `test`.</span></div>
+<h4>Returns</h4><p>Set of source IDs.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">source_ids</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">split</span><span class="p">:</span> <span class="nb">str</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">set</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Get the unique source IDs in a split.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        root: Dataset folder.</span>
+<span class="sd">        split: `train`, `valid`, or `test`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Set of source IDs.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">return</span> <span class="p">{</span><span class="n">source_id</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">image_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">split</span><span class="p">)}</span>
+</pre></div>
+</details>
+      </section><section id="load_class_names" class="function-card">
+        <h3><code>load_class_names(dataset_root: Path)</code></h3>
+        <div class="docbody"><p>Read the class names from `data.yaml` in ID order.</p>
+<h4>Args</h4><div class="argument"><code>dataset_root</code><span>Folder containing `data.yaml`.</span></div>
+<h4>Returns</h4><p>List of class names.</p>
+<h4>Raises</h4><div class="argument"><code>ValueError</code><span>Missing or inconsistent class names.</span></div></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">load_class_names</span><span class="p">(</span><span class="n">dataset_root</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">list</span><span class="p">[</span><span class="nb">str</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Read the class names from `data.yaml` in ID order.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        dataset_root: Folder containing `data.yaml`.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        List of class names.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Missing or inconsistent class names.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">((</span><span class="n">Path</span><span class="p">(</span><span class="n">dataset_root</span><span class="p">)</span> <span class="o">/</span> <span class="s2">&quot;data.yaml&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;names&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">dict</span><span class="p">):</span>
+        <span class="n">names</span> <span class="o">=</span> <span class="p">[</span><span class="n">names</span><span class="p">[</span><span class="n">k</span><span class="p">]</span> <span class="k">for</span> <span class="n">k</span> <span class="ow">in</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="n">key</span><span class="o">=</span><span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="nb">int</span><span class="p">(</span><span class="n">x</span><span class="p">))]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">names</span><span class="p">,</span> <span class="nb">list</span><span class="p">)</span> <span class="ow">or</span> <span class="ow">not</span> <span class="n">names</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;data.yaml needs a nonempty &#39;names&#39; list or ID-keyed mapping&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="s2">&quot;nc&quot;</span> <span class="ow">in</span> <span class="n">config</span> <span class="ow">and</span> <span class="nb">int</span><span class="p">(</span><span class="n">config</span><span class="p">[</span><span class="s2">&quot;nc&quot;</span><span class="p">])</span> <span class="o">!=</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;The &#39;nc&#39; value does not match the number of class names&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">[</span><span class="nb">str</span><span class="p">(</span><span class="n">name</span><span class="p">)</span> <span class="k">for</span> <span class="n">name</span> <span class="ow">in</span> <span class="n">names</span><span class="p">]</span>
+</pre></div>
+</details>
+      </section><section id="audit_dataset" class="function-card">
+        <h3><code>audit_dataset(root: Path, *, require_labels: bool=True)</code></h3>
+        <div class="docbody"><p>Check images, labels, and bounding boxes in each split.  Empty labels are counted as background images. Class counts are based on labelled boxes, not the number of images.</p>
+<h4>Args</h4><div class="argument"><code>root</code><span>Dataset folder containing `data.yaml`.</span></div><div class="argument"><code>require_labels</code><span>Whether each JPG needs a matching label file.</span></div>
+<h4>Returns</h4><p>Image, background, and class counts for each split.</p>
+<h4>Raises</h4><div class="argument"><code>FileNotFoundError</code><span>Required files or folders are missing.</span></div><div class="argument"><code>ValueError</code><span>Unsupported format or invalid annotation.</span></div></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">audit_dataset</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">require_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check images, labels, and bounding boxes in each split.</span>
+
+<span class="sd">    Empty labels are counted as background images. Class counts are based</span>
+<span class="sd">    on labelled boxes, not the number of images.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        root: Dataset folder containing `data.yaml`.</span>
+<span class="sd">        require_labels: Whether each JPG needs a matching label file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Image, background, and class counts for each split.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: Required files or folders are missing.</span>
+<span class="sd">        ValueError: Unsupported format or invalid annotation.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">names</span> <span class="o">=</span> <span class="n">load_class_names</span><span class="p">(</span><span class="n">root</span><span class="p">)</span>
+    <span class="n">result</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;class_names&quot;</span><span class="p">:</span> <span class="n">names</span><span class="p">,</span> <span class="s2">&quot;splits&quot;</span><span class="p">:</span> <span class="p">{}}</span>
+    <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">SPLITS</span><span class="p">:</span>
+        <span class="n">label_dir</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="n">split</span> <span class="o">/</span> <span class="s2">&quot;labels&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">label_dir</span><span class="o">.</span><span class="n">is_dir</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing labels directory: </span><span class="si">{</span><span class="n">label_dir</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">image_dir</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="n">split</span> <span class="o">/</span> <span class="s2">&quot;images&quot;</span>
+        <span class="n">unsupported</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">image_dir</span><span class="o">.</span><span class="n">iterdir</span><span class="p">()</span>
+                             <span class="k">if</span> <span class="n">p</span><span class="o">.</span><span class="n">is_file</span><span class="p">()</span> <span class="ow">and</span> <span class="n">p</span><span class="o">.</span><span class="n">suffix</span><span class="o">.</span><span class="n">lower</span><span class="p">()</span> <span class="ow">in</span> <span class="p">{</span><span class="s2">&quot;.jpeg&quot;</span><span class="p">,</span> <span class="s2">&quot;.png&quot;</span><span class="p">,</span> <span class="s2">&quot;.webp&quot;</span><span class="p">})</span>
+        <span class="k">if</span> <span class="n">unsupported</span><span class="p">:</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsupported image extensions in </span><span class="si">{</span><span class="n">split</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">unsupported</span><span class="p">[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">; &quot;</span>
+                             <span class="s2">&quot;review and adapt IMAGE_SUFFIXES before cleaning&quot;</span><span class="p">)</span>
+
+        <span class="n">counts</span> <span class="o">=</span> <span class="n">Counter</span><span class="p">()</span>
+        <span class="n">background_count</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">missing_labels</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">images</span> <span class="o">=</span> <span class="n">image_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">split</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">images</span><span class="p">:</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">label_dir</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.txt&quot;</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                <span class="k">if</span> <span class="n">require_labels</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Missing matching YOLO label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">missing_labels</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="n">background_count</span> <span class="o">+=</span> <span class="mi">1</span>
+                <span class="k">continue</span>
+            <span class="n">lines</span> <span class="o">=</span> <span class="p">[</span><span class="n">line</span> <span class="k">for</span> <span class="n">line</span> <span class="ow">in</span> <span class="n">label</span><span class="o">.</span><span class="n">read_text</span><span class="p">()</span><span class="o">.</span><span class="n">splitlines</span><span class="p">()</span> <span class="k">if</span> <span class="n">line</span><span class="o">.</span><span class="n">strip</span><span class="p">()]</span>
+            <span class="k">if</span> <span class="ow">not</span> <span class="n">lines</span><span class="p">:</span>
+                <span class="n">background_count</span> <span class="o">+=</span> <span class="mi">1</span>
+            <span class="k">for</span> <span class="n">line_number</span><span class="p">,</span> <span class="n">line</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">lines</span><span class="p">,</span> <span class="n">start</span><span class="o">=</span><span class="mi">1</span><span class="p">):</span>
+                <span class="k">try</span><span class="p">:</span>
+                    <span class="n">values</span> <span class="o">=</span> <span class="p">[</span><span class="nb">float</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">line</span><span class="o">.</span><span class="n">split</span><span class="p">()]</span>
+                <span class="k">except</span> <span class="ne">ValueError</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Non-numeric label at </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">line_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span>
+                <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">values</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">5</span> <span class="ow">or</span> <span class="ow">not</span> <span class="nb">all</span><span class="p">(</span><span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">v</span><span class="p">)</span> <span class="k">for</span> <span class="n">v</span> <span class="ow">in</span> <span class="n">values</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected five finite YOLO values at </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">line_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="bp">cls</span><span class="p">,</span> <span class="n">x</span><span class="p">,</span> <span class="n">y</span><span class="p">,</span> <span class="n">w</span><span class="p">,</span> <span class="n">h</span> <span class="o">=</span> <span class="n">values</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="bp">cls</span><span class="o">.</span><span class="n">is_integer</span><span class="p">()</span> <span class="ow">or</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="nb">int</span><span class="p">(</span><span class="bp">cls</span><span class="p">)</span> <span class="o">&lt;</span> <span class="nb">len</span><span class="p">(</span><span class="n">names</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Invalid class ID at </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">line_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="k">if</span> <span class="ow">not</span> <span class="p">(</span><span class="n">w</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span> <span class="n">h</span> <span class="o">&gt;</span> <span class="mi">0</span> <span class="ow">and</span>
+                        <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="o">-</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">x</span><span class="o">+</span><span class="n">w</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="mi">1</span> <span class="ow">and</span>
+                        <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="o">-</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="n">y</span><span class="o">+</span><span class="n">h</span><span class="o">/</span><span class="mi">2</span> <span class="o">&lt;=</span> <span class="mi">1</span><span class="p">):</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Box extends outside image at </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">:</span><span class="si">{</span><span class="n">line_number</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">counts</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="bp">cls</span><span class="p">)]</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="n">result</span><span class="p">[</span><span class="s2">&quot;splits&quot;</span><span class="p">][</span><span class="n">split</span><span class="p">]</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;images&quot;</span><span class="p">:</span> <span class="nb">len</span><span class="p">(</span><span class="n">images</span><span class="p">),</span>
+            <span class="s2">&quot;background_images&quot;</span><span class="p">:</span> <span class="n">background_count</span><span class="p">,</span>
+            <span class="s2">&quot;missing_label_files&quot;</span><span class="p">:</span> <span class="n">missing_labels</span><span class="p">,</span>
+            <span class="s2">&quot;boxes_by_class&quot;</span><span class="p">:</span> <span class="p">{</span><span class="n">name</span><span class="p">:</span> <span class="n">counts</span><span class="p">[</span><span class="n">i</span><span class="p">]</span> <span class="k">for</span> <span class="n">i</span><span class="p">,</span> <span class="n">name</span> <span class="ow">in</span> <span class="nb">enumerate</span><span class="p">(</span><span class="n">names</span><span class="p">)},</span>
+        <span class="p">}</span>
+    <span class="k">return</span> <span class="n">result</span>
+</pre></div>
+</details>
+      </section><section id="print_audit" class="function-card">
+        <h3><code>print_audit(audit: dict)</code></h3>
+        <div class="docbody"><p>Print the image and annotation counts.</p>
+<h4>Args</h4><div class="argument"><code>audit</code><span>Result from `audit_dataset()`.</span></div></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">print_audit</span><span class="p">(</span><span class="n">audit</span><span class="p">:</span> <span class="nb">dict</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Print the image and annotation counts.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        audit: Result from `audit_dataset()`.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">for</span> <span class="n">split</span><span class="p">,</span> <span class="n">info</span> <span class="ow">in</span> <span class="n">audit</span><span class="p">[</span><span class="s2">&quot;splits&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;</span><span class="se">\n</span><span class="si">{</span><span class="n">split</span><span class="o">.</span><span class="n">upper</span><span class="p">()</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;images&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> images; &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;background_images&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> backgrounds; &quot;</span>
+              <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">info</span><span class="p">[</span><span class="s1">&#39;missing_label_files&#39;</span><span class="p">]</span><span class="si">}</span><span class="s2"> missing label files&quot;</span><span class="p">)</span>
+        <span class="k">for</span> <span class="n">name</span><span class="p">,</span> <span class="n">count</span> <span class="ow">in</span> <span class="n">info</span><span class="p">[</span><span class="s2">&quot;boxes_by_class&quot;</span><span class="p">]</span><span class="o">.</span><span class="n">items</span><span class="p">():</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;  </span><span class="si">{</span><span class="n">name</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="n">count</span><span class="si">}</span><span class="s2"> boxes&quot;</span><span class="p">)</span>
+</pre></div>
+</details>
+      </section><section id="prepare_dataset" class="function-card">
+        <h3><code>prepare_dataset(zip_path: str | Path, output_dir: str | Path, *, holdout_source: str | None=None, expected_holdout_images: int | None=None, expected_dataset_version: int | None=None, require_labels: bool=True)</code></h3>
+        <div class="docbody"><p>Extract, clean, and check a Roboflow YOLO dataset.  Preparation starts from the original ZIP each time. The output folder is replaced only after the dataset passes all checks.</p>
+<h4>Args</h4><div class="argument"><code>zip_path</code><span>Original Roboflow ZIP.</span></div><div class="argument"><code>output_dir</code><span>Folder for the cleaned dataset.</span></div><div class="argument"><code>holdout_source</code><span>Source ID to move from train to valid, if needed.</span></div><div class="argument"><code>expected_holdout_images</code><span>Expected number of images to move.</span></div><div class="argument"><code>expected_dataset_version</code><span>Roboflow version to check against.</span></div><div class="argument"><code>require_labels</code><span>Whether each JPG needs a matching label file.</span></div>
+<h4>Returns</h4><p>Record of the cleaning settings, dataset counts, and hashes.</p>
+<h4>Raises</h4><div class="argument"><code>FileNotFoundError</code><span>Required dataset files are missing.</span></div><div class="argument"><code>ValueError</code><span>Dataset version, splits, or labels fail checks.</span></div></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">prepare_dataset</span><span class="p">(</span>
+    <span class="n">zip_path</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">output_dir</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="o">*</span><span class="p">,</span>
+    <span class="n">holdout_source</span><span class="p">:</span> <span class="nb">str</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">expected_holdout_images</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">expected_dataset_version</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span>
+    <span class="n">require_labels</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Extract, clean, and check a Roboflow YOLO dataset.</span>
+
+<span class="sd">    Preparation starts from the original ZIP each time. The output folder</span>
+<span class="sd">    is replaced only after the dataset passes all checks.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        zip_path: Original Roboflow ZIP.</span>
+<span class="sd">        output_dir: Folder for the cleaned dataset.</span>
+<span class="sd">        holdout_source: Source ID to move from train to valid, if needed.</span>
+<span class="sd">        expected_holdout_images: Expected number of images to move.</span>
+<span class="sd">        expected_dataset_version: Roboflow version to check against.</span>
+<span class="sd">        require_labels: Whether each JPG needs a matching label file.</span>
+
+<span class="sd">    Returns:</span>
+<span class="sd">        Record of the cleaning settings, dataset counts, and hashes.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        FileNotFoundError: Required dataset files are missing.</span>
+<span class="sd">        ValueError: Dataset version, splits, or labels fail checks.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="n">zip_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">zip_path</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+    <span class="n">output_dir</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span><span class="o">.</span><span class="n">expanduser</span><span class="p">()</span><span class="o">.</span><span class="n">resolve</span><span class="p">()</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">zip_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Dataset ZIP not found: </span><span class="si">{</span><span class="n">zip_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+    <span class="k">if</span> <span class="n">expected_holdout_images</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="n">holdout_source</span> <span class="ow">is</span> <span class="kc">None</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;expected_holdout_images requires holdout_source&quot;</span><span class="p">)</span>
+    <span class="n">output_dir</span><span class="o">.</span><span class="n">parent</span><span class="o">.</span><span class="n">mkdir</span><span class="p">(</span><span class="n">parents</span><span class="o">=</span><span class="kc">True</span><span class="p">,</span> <span class="n">exist_ok</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+    <span class="n">source_sha</span> <span class="o">=</span> <span class="n">_hash_file</span><span class="p">(</span><span class="n">zip_path</span><span class="p">)</span>
+
+    <span class="k">with</span> <span class="n">tempfile</span><span class="o">.</span><span class="n">TemporaryDirectory</span><span class="p">(</span><span class="n">prefix</span><span class="o">=</span><span class="s2">&quot;mma3001_prepare_&quot;</span><span class="p">,</span> <span class="nb">dir</span><span class="o">=</span><span class="n">output_dir</span><span class="o">.</span><span class="n">parent</span><span class="p">)</span> <span class="k">as</span> <span class="n">tmp</span><span class="p">:</span>
+        <span class="n">tmp_root</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">tmp</span><span class="p">)</span>
+        <span class="n">extracted</span> <span class="o">=</span> <span class="n">tmp_root</span> <span class="o">/</span> <span class="s2">&quot;extracted&quot;</span>
+        <span class="n">extracted</span><span class="o">.</span><span class="n">mkdir</span><span class="p">()</span>
+        <span class="k">with</span> <span class="n">zipfile</span><span class="o">.</span><span class="n">ZipFile</span><span class="p">(</span><span class="n">zip_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">archive</span><span class="p">:</span>
+            <span class="c1"># Block unsafe paths in the ZIP.</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="n">archive</span><span class="o">.</span><span class="n">namelist</span><span class="p">():</span>
+                <span class="n">path</span> <span class="o">=</span> <span class="n">PurePosixPath</span><span class="p">(</span><span class="n">item</span><span class="p">)</span>
+                <span class="k">if</span> <span class="n">path</span><span class="o">.</span><span class="n">is_absolute</span><span class="p">()</span> <span class="ow">or</span> <span class="s2">&quot;..&quot;</span> <span class="ow">in</span> <span class="n">path</span><span class="o">.</span><span class="n">parts</span><span class="p">:</span>
+                    <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Unsafe archive member: </span><span class="si">{</span><span class="n">item</span><span class="si">!r}</span><span class="s2">&quot;</span><span class="p">)</span>
+            <span class="n">archive</span><span class="o">.</span><span class="n">extractall</span><span class="p">(</span><span class="n">extracted</span><span class="p">)</span>
+        <span class="n">original</span> <span class="o">=</span> <span class="n">_locate_dataset_root</span><span class="p">(</span><span class="n">extracted</span><span class="p">)</span>
+        <span class="n">config</span> <span class="o">=</span> <span class="n">yaml</span><span class="o">.</span><span class="n">safe_load</span><span class="p">((</span><span class="n">original</span> <span class="o">/</span> <span class="s2">&quot;data.yaml&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span>
+        <span class="n">version</span> <span class="o">=</span> <span class="n">config</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;roboflow&quot;</span><span class="p">,</span> <span class="p">{})</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="s2">&quot;version&quot;</span><span class="p">)</span>
+        <span class="k">if</span> <span class="n">expected_dataset_version</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">str</span><span class="p">(</span><span class="n">version</span><span class="p">)</span> <span class="o">!=</span> <span class="nb">str</span><span class="p">(</span><span class="n">expected_dataset_version</span><span class="p">):</span>
+            <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected Roboflow V</span><span class="si">{</span><span class="n">expected_dataset_version</span><span class="si">}</span><span class="s2">, ZIP declares V</span><span class="si">{</span><span class="n">version</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Work on a fresh copy of the dataset.</span>
+        <span class="n">stage</span> <span class="o">=</span> <span class="n">tmp_root</span> <span class="o">/</span> <span class="s2">&quot;prepared&quot;</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">copytree</span><span class="p">(</span><span class="n">original</span><span class="p">,</span> <span class="n">stage</span><span class="p">)</span>
+        <span class="n">removed</span> <span class="o">=</span> <span class="n">_remove_cross_split_sources</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">require_labels</span><span class="o">=</span><span class="n">require_labels</span><span class="p">)</span>
+        <span class="n">heldout</span> <span class="o">=</span> <span class="p">(</span><span class="n">_reserve_source_for_validation</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">holdout_source</span><span class="p">,</span> <span class="n">expected_holdout_images</span><span class="p">)</span>
+                   <span class="k">if</span> <span class="n">holdout_source</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="k">else</span> <span class="mi">0</span><span class="p">)</span>
+        <span class="n">ids</span> <span class="o">=</span> <span class="p">{</span><span class="n">split</span><span class="p">:</span> <span class="n">source_ids</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">split</span><span class="p">)</span> <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">SPLITS</span><span class="p">}</span>
+        <span class="k">for</span> <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="ow">in</span> <span class="p">((</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;valid&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">),</span> <span class="p">(</span><span class="s2">&quot;valid&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">)):</span>
+            <span class="n">shared</span> <span class="o">=</span> <span class="n">ids</span><span class="p">[</span><span class="n">a</span><span class="p">]</span> <span class="o">&amp;</span> <span class="n">ids</span><span class="p">[</span><span class="n">b</span><span class="p">]</span>
+            <span class="k">if</span> <span class="n">shared</span><span class="p">:</span>
+                <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Source leakage between </span><span class="si">{</span><span class="n">a</span><span class="si">}</span><span class="s2"> and </span><span class="si">{</span><span class="n">b</span><span class="si">}</span><span class="s2">: </span><span class="si">{</span><span class="nb">sorted</span><span class="p">(</span><span class="n">shared</span><span class="p">)[:</span><span class="mi">5</span><span class="p">]</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="c1"># Set the paths used by YOLO.</span>
+        <span class="n">config</span><span class="o">.</span><span class="n">update</span><span class="p">({</span><span class="s2">&quot;path&quot;</span><span class="p">:</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">),</span>
+                       <span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="s2">&quot;train/images&quot;</span><span class="p">,</span> <span class="s2">&quot;val&quot;</span><span class="p">:</span> <span class="s2">&quot;valid/images&quot;</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">:</span> <span class="s2">&quot;test/images&quot;</span><span class="p">})</span>
+        <span class="p">(</span><span class="n">stage</span> <span class="o">/</span> <span class="s2">&quot;data.yaml&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">yaml</span><span class="o">.</span><span class="n">safe_dump</span><span class="p">(</span><span class="n">config</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">False</span><span class="p">))</span>
+        <span class="n">audit</span> <span class="o">=</span> <span class="n">audit_dataset</span><span class="p">(</span><span class="n">stage</span><span class="p">,</span> <span class="n">require_labels</span><span class="o">=</span><span class="n">require_labels</span><span class="p">)</span>
+        <span class="n">manifest</span> <span class="o">=</span> <span class="p">{</span>
+            <span class="s2">&quot;method_version&quot;</span><span class="p">:</span> <span class="n">METHOD_VERSION</span><span class="p">,</span>
+            <span class="s2">&quot;dataset_zip&quot;</span><span class="p">:</span> <span class="n">zip_path</span><span class="o">.</span><span class="n">name</span><span class="p">,</span>
+            <span class="s2">&quot;zip_sha256&quot;</span><span class="p">:</span> <span class="n">source_sha</span><span class="p">,</span>
+            <span class="s2">&quot;roboflow_version&quot;</span><span class="p">:</span> <span class="n">version</span><span class="p">,</span>
+            <span class="s2">&quot;settings&quot;</span><span class="p">:</span> <span class="p">{</span>
+                <span class="s2">&quot;source_rule&quot;</span><span class="p">:</span> <span class="s2">&quot;prefix before .rf. (JPG only)&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;split_priority&quot;</span><span class="p">:</span> <span class="s2">&quot;test &gt; valid &gt; train&quot;</span><span class="p">,</span>
+                <span class="s2">&quot;holdout_source&quot;</span><span class="p">:</span> <span class="n">holdout_source</span><span class="p">,</span>
+                <span class="s2">&quot;expected_holdout_images&quot;</span><span class="p">:</span> <span class="n">expected_holdout_images</span><span class="p">,</span>
+                <span class="s2">&quot;require_labels&quot;</span><span class="p">:</span> <span class="n">require_labels</span><span class="p">,</span>
+            <span class="p">},</span>
+            <span class="s2">&quot;removed_overlap_images&quot;</span><span class="p">:</span> <span class="n">removed</span><span class="p">,</span>
+            <span class="s2">&quot;moved_to_validation&quot;</span><span class="p">:</span> <span class="n">heldout</span><span class="p">,</span>
+            <span class="s2">&quot;audit&quot;</span><span class="p">:</span> <span class="n">audit</span><span class="p">,</span>
+            <span class="s2">&quot;split_fingerprint_sha256&quot;</span><span class="p">:</span> <span class="n">_split_fingerprint</span><span class="p">(</span><span class="n">stage</span><span class="p">),</span>
+        <span class="p">}</span>
+        <span class="p">(</span><span class="n">stage</span> <span class="o">/</span> <span class="n">MANIFEST_FILE</span><span class="p">)</span><span class="o">.</span><span class="n">write_text</span><span class="p">(</span><span class="n">json</span><span class="o">.</span><span class="n">dumps</span><span class="p">(</span><span class="n">manifest</span><span class="p">,</span> <span class="n">indent</span><span class="o">=</span><span class="mi">2</span><span class="p">,</span> <span class="n">sort_keys</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span> <span class="o">+</span> <span class="s2">&quot;</span><span class="se">\n</span><span class="s2">&quot;</span><span class="p">)</span>
+
+        <span class="k">if</span> <span class="n">output_dir</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+            <span class="c1"># Keep the old output if preparation fails.</span>
+            <span class="n">shutil</span><span class="o">.</span><span class="n">rmtree</span><span class="p">(</span><span class="n">output_dir</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">stage</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">output_dir</span><span class="p">))</span>
+    <span class="k">return</span> <span class="n">manifest</span>
+</pre></div>
+</details>
+      </section><section id="assert_preparations_match" class="function-card">
+        <h3><code>assert_preparations_match(current: dict | str | Path, reference: dict | str | Path)</code></h3>
+        <div class="docbody"><p>Check whether two dataset preparation records match.</p>
+<h4>Args</h4><div class="argument"><code>current</code><span>Current record or path to its JSON file.</span></div><div class="argument"><code>reference</code><span>Reference record or path to its JSON file.</span></div>
+<h4>Raises</h4><div class="argument"><code>ValueError</code><span>Preparation records differ.</span></div><p>Matching records confirm the same prepared data, not the training</p><p>history of previously saved model weights.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">assert_preparations_match</span><span class="p">(</span>
+    <span class="n">current</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+    <span class="n">reference</span><span class="p">:</span> <span class="nb">dict</span> <span class="o">|</span> <span class="nb">str</span> <span class="o">|</span> <span class="n">Path</span><span class="p">,</span>
+<span class="p">)</span> <span class="o">-&gt;</span> <span class="kc">None</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Check whether two dataset preparation records match.</span>
+
+<span class="sd">    Args:</span>
+<span class="sd">        current: Current record or path to its JSON file.</span>
+<span class="sd">        reference: Reference record or path to its JSON file.</span>
+
+<span class="sd">    Raises:</span>
+<span class="sd">        ValueError: Preparation records differ.</span>
+
+<span class="sd">    Matching records confirm the same prepared data, not the training</span>
+<span class="sd">    history of previously saved model weights.</span>
+<span class="sd">    &quot;&quot;&quot;</span>
+    <span class="k">def</span><span class="w"> </span><span class="nf">as_manifest</span><span class="p">(</span><span class="n">obj</span><span class="p">):</span>
+        <span class="k">return</span> <span class="n">json</span><span class="o">.</span><span class="n">loads</span><span class="p">(</span><span class="n">Path</span><span class="p">(</span><span class="n">obj</span><span class="p">)</span><span class="o">.</span><span class="n">read_text</span><span class="p">())</span> <span class="k">if</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">obj</span><span class="p">,</span> <span class="p">(</span><span class="nb">str</span><span class="p">,</span> <span class="n">Path</span><span class="p">))</span> <span class="k">else</span> <span class="n">obj</span>
+
+    <span class="n">a</span><span class="p">,</span> <span class="n">b</span> <span class="o">=</span> <span class="n">as_manifest</span><span class="p">(</span><span class="n">current</span><span class="p">),</span> <span class="n">as_manifest</span><span class="p">(</span><span class="n">reference</span><span class="p">)</span>
+    <span class="n">keys</span> <span class="o">=</span> <span class="p">(</span><span class="s2">&quot;method_version&quot;</span><span class="p">,</span> <span class="s2">&quot;zip_sha256&quot;</span><span class="p">,</span> <span class="s2">&quot;roboflow_version&quot;</span><span class="p">,</span> <span class="s2">&quot;settings&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;removed_overlap_images&quot;</span><span class="p">,</span> <span class="s2">&quot;moved_to_validation&quot;</span><span class="p">,</span> <span class="s2">&quot;audit&quot;</span><span class="p">,</span>
+            <span class="s2">&quot;split_fingerprint_sha256&quot;</span><span class="p">)</span>
+    <span class="n">mismatches</span> <span class="o">=</span> <span class="p">[</span><span class="n">key</span> <span class="k">for</span> <span class="n">key</span> <span class="ow">in</span> <span class="n">keys</span> <span class="k">if</span> <span class="n">a</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)</span> <span class="o">!=</span> <span class="n">b</span><span class="o">.</span><span class="n">get</span><span class="p">(</span><span class="n">key</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="n">mismatches</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Prepared dataset does not match training manifest: </span><span class="si">{</span><span class="n">mismatches</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+</pre></div>
+</details>
+      </section><h2>Internal helpers</h2><section id="_hash_file" class="function-card">
+        <h3><code>_hash_file(path: Path)</code></h3>
+        <div class="docbody"><p>Return the SHA-256 hash of a file.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_hash_file</span><span class="p">(</span><span class="n">path</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Return the SHA-256 hash of a file.&quot;&quot;&quot;</span>
+    <span class="n">sha</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+    <span class="k">with</span> <span class="n">path</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="s2">&quot;rb&quot;</span><span class="p">)</span> <span class="k">as</span> <span class="n">handle</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">block</span> <span class="ow">in</span> <span class="nb">iter</span><span class="p">(</span><span class="k">lambda</span><span class="p">:</span> <span class="n">handle</span><span class="o">.</span><span class="n">read</span><span class="p">(</span><span class="mi">1024</span> <span class="o">*</span> <span class="mi">1024</span><span class="p">),</span> <span class="sa">b</span><span class="s2">&quot;&quot;</span><span class="p">):</span>
+            <span class="n">sha</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">block</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sha</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</pre></div>
+</details>
+      </section><section id="_split_fingerprint" class="function-card">
+        <h3><code>_split_fingerprint(root: Path)</code></h3>
+        <div class="docbody"><p>Hash the prepared image and label files.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_split_fingerprint</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">str</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Hash the prepared image and label files.&quot;&quot;&quot;</span>
+    <span class="n">sha</span> <span class="o">=</span> <span class="n">hashlib</span><span class="o">.</span><span class="n">sha256</span><span class="p">()</span>
+    <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">SPLITS</span><span class="p">:</span>
+        <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">image_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">split</span><span class="p">):</span>
+            <span class="n">label</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="n">split</span> <span class="o">/</span> <span class="s2">&quot;labels&quot;</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.txt&quot;</span>
+            <span class="k">for</span> <span class="n">item</span> <span class="ow">in</span> <span class="p">(</span><span class="n">image</span><span class="p">,</span> <span class="n">label</span><span class="p">):</span>
+                <span class="n">sha</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">item</span><span class="o">.</span><span class="n">relative_to</span><span class="p">(</span><span class="n">root</span><span class="p">)</span><span class="o">.</span><span class="n">as_posix</span><span class="p">()</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;utf-8&quot;</span><span class="p">))</span>
+                <span class="k">if</span> <span class="n">item</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">sha</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="n">_hash_file</span><span class="p">(</span><span class="n">item</span><span class="p">)</span><span class="o">.</span><span class="n">encode</span><span class="p">(</span><span class="s2">&quot;ascii&quot;</span><span class="p">))</span>
+                <span class="k">else</span><span class="p">:</span>
+                    <span class="n">sha</span><span class="o">.</span><span class="n">update</span><span class="p">(</span><span class="sa">b</span><span class="s2">&quot;&lt;MISSING_LABEL&gt;&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">sha</span><span class="o">.</span><span class="n">hexdigest</span><span class="p">()</span>
+</pre></div>
+</details>
+      </section><section id="_locate_dataset_root" class="function-card">
+        <h3><code>_locate_dataset_root(extracted: Path)</code></h3>
+        <div class="docbody"><p>Find the dataset folder containing `data.yaml`.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_locate_dataset_root</span><span class="p">(</span><span class="n">extracted</span><span class="p">:</span> <span class="n">Path</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="n">Path</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Find the dataset folder containing `data.yaml`.&quot;&quot;&quot;</span>
+    <span class="n">matches</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">extracted</span><span class="o">.</span><span class="n">rglob</span><span class="p">(</span><span class="s2">&quot;data.yaml&quot;</span><span class="p">)</span>
+               <span class="k">if</span> <span class="nb">all</span><span class="p">((</span><span class="n">p</span><span class="o">.</span><span class="n">parent</span> <span class="o">/</span> <span class="n">split</span> <span class="o">/</span> <span class="s2">&quot;images&quot;</span><span class="p">)</span><span class="o">.</span><span class="n">is_dir</span><span class="p">()</span> <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">SPLITS</span><span class="p">)]</span>
+    <span class="k">if</span> <span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span> <span class="o">!=</span> <span class="mi">1</span><span class="p">:</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Expected one YOLO root (data.yaml + train/valid/test), &quot;</span>
+                         <span class="sa">f</span><span class="s2">&quot;found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">matches</span><span class="p">)</span><span class="si">}</span><span class="s2"> in archive&quot;</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">matches</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span>
+</pre></div>
+</details>
+      </section><section id="_remove_cross_split_sources" class="function-card">
+        <h3><code>_remove_cross_split_sources(root: Path, *, require_labels: bool)</code></h3>
+        <div class="docbody"><p>Remove repeated sources, keeping test before valid before train.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_remove_cross_split_sources</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="o">*</span><span class="p">,</span> <span class="n">require_labels</span><span class="p">:</span> <span class="nb">bool</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">dict</span><span class="p">[</span><span class="nb">str</span><span class="p">,</span> <span class="nb">int</span><span class="p">]:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Remove repeated sources, keeping test before valid before train.&quot;&quot;&quot;</span>
+    <span class="n">blocked</span> <span class="o">=</span> <span class="p">{</span>
+        <span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="n">source_ids</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;valid&quot;</span><span class="p">)</span> <span class="o">|</span> <span class="n">source_ids</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">),</span>
+        <span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="n">source_ids</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;test&quot;</span><span class="p">),</span>
+    <span class="p">}</span>
+    <span class="n">removed</span> <span class="o">=</span> <span class="p">{</span><span class="s2">&quot;train&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">,</span> <span class="s2">&quot;valid&quot;</span><span class="p">:</span> <span class="mi">0</span><span class="p">}</span>
+    <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="p">(</span><span class="s2">&quot;train&quot;</span><span class="p">,</span> <span class="s2">&quot;valid&quot;</span><span class="p">):</span>
+        <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">image_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">split</span><span class="p">):</span>
+            <span class="k">if</span> <span class="n">source_id</span><span class="p">(</span><span class="n">image</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="ow">in</span> <span class="n">blocked</span><span class="p">[</span><span class="n">split</span><span class="p">]:</span>
+                <span class="n">label</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="n">split</span> <span class="o">/</span> <span class="s2">&quot;labels&quot;</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.txt&quot;</span>
+                <span class="k">if</span> <span class="n">require_labels</span> <span class="ow">and</span> <span class="ow">not</span> <span class="n">label</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Cannot remove image without label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+                <span class="n">image</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+                <span class="k">if</span> <span class="n">label</span><span class="o">.</span><span class="n">exists</span><span class="p">():</span>
+                    <span class="n">label</span><span class="o">.</span><span class="n">unlink</span><span class="p">()</span>
+                <span class="n">removed</span><span class="p">[</span><span class="n">split</span><span class="p">]</span> <span class="o">+=</span> <span class="mi">1</span>
+    <span class="k">return</span> <span class="n">removed</span>
+</pre></div>
+</details>
+      </section><section id="_reserve_source_for_validation" class="function-card">
+        <h3><code>_reserve_source_for_validation(root: Path, source: str, expected_count: int | None)</code></h3>
+        <div class="docbody"><p>Move one source and its labels from train to valid.</p></div>
+        <details><summary>View source</summary><div class="highlight"><pre><span></span><span class="k">def</span><span class="w"> </span><span class="nf">_reserve_source_for_validation</span><span class="p">(</span><span class="n">root</span><span class="p">:</span> <span class="n">Path</span><span class="p">,</span> <span class="n">source</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">expected_count</span><span class="p">:</span> <span class="nb">int</span> <span class="o">|</span> <span class="kc">None</span><span class="p">)</span> <span class="o">-&gt;</span> <span class="nb">int</span><span class="p">:</span>
+<span class="w">    </span><span class="sd">&quot;&quot;&quot;Move one source and its labels from train to valid.&quot;&quot;&quot;</span>
+    <span class="n">selected</span> <span class="o">=</span> <span class="p">[</span><span class="n">p</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">image_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="s2">&quot;train&quot;</span><span class="p">)</span> <span class="k">if</span> <span class="n">source_id</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">source</span><span class="p">]</span>
+    <span class="k">if</span> <span class="ow">not</span> <span class="n">selected</span> <span class="ow">or</span> <span class="p">(</span><span class="n">expected_count</span> <span class="ow">is</span> <span class="ow">not</span> <span class="kc">None</span> <span class="ow">and</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span> <span class="o">!=</span> <span class="n">expected_count</span><span class="p">):</span>
+        <span class="n">locations</span> <span class="o">=</span> <span class="p">{</span><span class="n">split</span><span class="p">:</span> <span class="nb">sum</span><span class="p">(</span><span class="n">source_id</span><span class="p">(</span><span class="n">p</span><span class="o">.</span><span class="n">name</span><span class="p">)</span> <span class="o">==</span> <span class="n">source</span> <span class="k">for</span> <span class="n">p</span> <span class="ow">in</span> <span class="n">image_paths</span><span class="p">(</span><span class="n">root</span><span class="p">,</span> <span class="n">split</span><span class="p">))</span>
+                     <span class="k">for</span> <span class="n">split</span> <span class="ow">in</span> <span class="n">SPLITS</span><span class="p">}</span>
+        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span>
+            <span class="sa">f</span><span class="s2">&quot;Holdout </span><span class="si">{</span><span class="n">source</span><span class="si">!r}</span><span class="s2">: expected </span><span class="si">{</span><span class="n">expected_count</span><span class="w"> </span><span class="ow">or</span><span class="w"> </span><span class="s1">&#39;at least one&#39;</span><span class="si">}</span><span class="s2"> &quot;</span>
+            <span class="sa">f</span><span class="s2">&quot;train images, found </span><span class="si">{</span><span class="nb">len</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span><span class="si">}</span><span class="s2">. Locations: </span><span class="si">{</span><span class="n">locations</span><span class="si">}</span><span class="s2">. &quot;</span>
+            <span class="s2">&quot;Dataset version or holdout settings may not match the archive.&quot;</span>
+        <span class="p">)</span>
+    <span class="k">for</span> <span class="n">image</span> <span class="ow">in</span> <span class="n">selected</span><span class="p">:</span>
+        <span class="n">label</span> <span class="o">=</span> <span class="n">root</span> <span class="o">/</span> <span class="s2">&quot;train&quot;</span> <span class="o">/</span> <span class="s2">&quot;labels&quot;</span> <span class="o">/</span> <span class="sa">f</span><span class="s2">&quot;</span><span class="si">{</span><span class="n">image</span><span class="o">.</span><span class="n">stem</span><span class="si">}</span><span class="s2">.txt&quot;</span>
+        <span class="k">if</span> <span class="ow">not</span> <span class="n">label</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span>
+            <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Holdout is missing its label: </span><span class="si">{</span><span class="n">label</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">image</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="s2">&quot;valid&quot;</span> <span class="o">/</span> <span class="s2">&quot;images&quot;</span> <span class="o">/</span> <span class="n">image</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+        <span class="n">shutil</span><span class="o">.</span><span class="n">move</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">label</span><span class="p">),</span> <span class="nb">str</span><span class="p">(</span><span class="n">root</span> <span class="o">/</span> <span class="s2">&quot;valid&quot;</span> <span class="o">/</span> <span class="s2">&quot;labels&quot;</span> <span class="o">/</span> <span class="n">label</span><span class="o">.</span><span class="n">name</span><span class="p">))</span>
+    <span class="k">return</span> <span class="nb">len</span><span class="p">(</span><span class="n">selected</span><span class="p">)</span>
+</pre></div>
+</details>
+      </section></main></div>
+<footer>Generated from the docstrings and source of <code>src/dataset_preparation.py</code>. Regenerate after editing the source module.</footer>
+</body></html>
