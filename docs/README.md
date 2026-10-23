@@ -1,9 +1,22 @@
 # API Documentation
 
-This folder contains HTML documentation for the project's Python source code.
+This folder contains the HTML documentation for the project's Python source code.
 
-- `index.html` - Main documentation page.
-- `dataset_preparation.html` - Dataset cleaning, validation and preparation functions.
-- `inspection.html` - Packaging defect inspection function.
+- `index.html`: API documentation index.
+- `dataset_preparation.html`: Dataset preparation and validation functions in `src/dataset_preparation.py`.
+- `inspection.html`: Packaging inspection function in `inspection.py`.
 
-The HTML documentation is generated from the Python source code and docstrings.
+The HTML pages explain the functions, parameters, return values, and implementation.
+
+## Regenerate the HTML with pdoc
+
+Run the following commands from the repository root in an environment with Python and the required packages:
+
+```
+bash
+
+python -m pip install pdoc pyyaml ultralytics
+pdoc ./inspection.py ./src/dataset_preparation.py -o ./docs
+```
+
+Rebuild the pages after editing either source file so the documentation stays in sync with the code.
