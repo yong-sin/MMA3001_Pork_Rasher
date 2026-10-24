@@ -137,7 +137,7 @@ The reorganised training notebooks keep retraining **disabled by default**, usin
 | Train/load the V2 YOLOv8n baseline | [`V2 Training`](notebooks/v2/MMA3001_v2_training.ipynb) |
 | Evaluate the V2 YOLOv8n baseline | [`V2 Validation`](notebooks/v2/MMA3001_v2_validation.ipynb) |
 | Study the V2 YOLOv8s experiment | [`V2 Improvement`](notebooks/v2/MMA3001_v2_improvement.ipynb) |
-| Train/load the V1 baseline | [V1 Training](notebooks/v1/MA3001_v1_Training.ipynb) |
+| Train/load the V1 baseline | [V1 Training](notebooks/v1/MMA3001_v1_Training.ipynb) |
 | Evaluate the V1 baseline | [V1 Evaluation](notebooks/v1/MMA3001_v1_Evaluation.ipynb) |
 | Explore the V1 no-mosaic model | [`V1 No Mosaic`](notebooks/v1/MMA3001_v1_no_mosaic.ipynb) |
 | Compare V1 learning rates | [`V1 Learning Rate`](notebooks/v1/MMA3001_v1_learning_rate_exploration.ipynb) |
