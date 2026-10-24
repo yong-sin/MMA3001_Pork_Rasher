@@ -42,47 +42,82 @@
                     <h1 class="modulename">
 inspection    </h1>
 
-                        <div class="docstring"><p>Detect pork rasher packaging defects in an image.</p>
-</div>
+                        <div class="docstring"><p>Validate an input image and detect visible pork-rasher packaging defects.</p></div>
 
                         <input id="mod-inspection-view-source" class="view-source-toggle-state" type="checkbox" aria-hidden="true" tabindex="-1">
 
                         <label class="view-source-button" for="mod-inspection-view-source"><span>View Source</span></label>
 
-                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos"> 1</span></a><span class="sd">"""Detect pork rasher packaging defects in an image."""</span>
-</span><span id="L-2"><a href="#L-2"><span class="linenos"> 2</span></a>
-</span><span id="L-3"><a href="#L-3"><span class="linenos"> 3</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">ultralytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">YOLO</span>
-</span><span id="L-4"><a href="#L-4"><span class="linenos"> 4</span></a>
-</span><span id="L-5"><a href="#L-5"><span class="linenos"> 5</span></a>
-</span><span id="L-6"><a href="#L-6"><span class="linenos"> 6</span></a><span class="k">def</span><span class="w"> </span><span class="nf">inspect_package</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">weights_path</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.201</span><span class="p">):</span>
-</span><span id="L-7"><a href="#L-7"><span class="linenos"> 7</span></a><span class="w">    </span><span class="sd">"""Detect packaging defects in an image.</span>
-</span><span id="L-8"><a href="#L-8"><span class="linenos"> 8</span></a>
-</span><span id="L-9"><a href="#L-9"><span class="linenos"> 9</span></a><span class="sd">    Args:</span>
-</span><span id="L-10"><a href="#L-10"><span class="linenos">10</span></a><span class="sd">        image_path: Path to the input image.</span>
-</span><span id="L-11"><a href="#L-11"><span class="linenos">11</span></a><span class="sd">        weights_path: Path to the trained YOLO weights.</span>
-</span><span id="L-12"><a href="#L-12"><span class="linenos">12</span></a><span class="sd">        confidence: Minimum detection confidence.</span>
-</span><span id="L-13"><a href="#L-13"><span class="linenos">13</span></a>
-</span><span id="L-14"><a href="#L-14"><span class="linenos">14</span></a><span class="sd">    Returns:</span>
-</span><span id="L-15"><a href="#L-15"><span class="linenos">15</span></a><span class="sd">        List of detections with defect name, confidence, and bounding box.</span>
-</span><span id="L-16"><a href="#L-16"><span class="linenos">16</span></a><span class="sd">    """</span>
-</span><span id="L-17"><a href="#L-17"><span class="linenos">17</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">weights_path</span><span class="p">))</span>
-</span><span id="L-18"><a href="#L-18"><span class="linenos">18</span></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-</span><span id="L-19"><a href="#L-19"><span class="linenos">19</span></a>        <span class="n">source</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">),</span>
-</span><span id="L-20"><a href="#L-20"><span class="linenos">20</span></a>        <span class="n">conf</span><span class="o">=</span><span class="n">confidence</span><span class="p">,</span>
-</span><span id="L-21"><a href="#L-21"><span class="linenos">21</span></a>        <span class="n">imgsz</span><span class="o">=</span><span class="mi">640</span><span class="p">,</span>
-</span><span id="L-22"><a href="#L-22"><span class="linenos">22</span></a>        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="L-23"><a href="#L-23"><span class="linenos">23</span></a>    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="L-24"><a href="#L-24"><span class="linenos">24</span></a>
-</span><span id="L-25"><a href="#L-25"><span class="linenos">25</span></a>    <span class="n">detections</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="L-26"><a href="#L-26"><span class="linenos">26</span></a>    <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
-</span><span id="L-27"><a href="#L-27"><span class="linenos">27</span></a>        <span class="n">detections</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-</span><span id="L-28"><a href="#L-28"><span class="linenos">28</span></a>            <span class="s2">"defect"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="o">.</span><span class="n">item</span><span class="p">())],</span>
-</span><span id="L-29"><a href="#L-29"><span class="linenos">29</span></a>            <span class="s2">"confidence"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="mi">3</span><span class="p">),</span>
-</span><span id="L-30"><a href="#L-30"><span class="linenos">30</span></a>            <span class="s2">"box"</span><span class="p">:</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()],</span>
-</span><span id="L-31"><a href="#L-31"><span class="linenos">31</span></a>        <span class="p">})</span>
-</span><span id="L-32"><a href="#L-32"><span class="linenos">32</span></a>
-</span><span id="L-33"><a href="#L-33"><span class="linenos">33</span></a>    <span class="k">return</span> <span class="n">detections</span>
-</span></pre></div>
+                        <div class="pdoc-code codehilite"><pre><span></span><span id="L-1"><a href="#L-1"><span class="linenos">  1</span></a><span class="sd">&quot;&quot;&quot;Validate an input image and detect visible pork-rasher packaging defects.&quot;&quot;&quot;</span></span>
+<span id="L-2"><a href="#L-2"><span class="linenos">  2</span></a></span>
+<span id="L-3"><a href="#L-3"><span class="linenos">  3</span></a><span class="kn">import</span><span class="w"> </span><span class="nn">math</span></span>
+<span id="L-4"><a href="#L-4"><span class="linenos">  4</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">pathlib</span><span class="w"> </span><span class="kn">import</span> <span class="n">Path</span></span>
+<span id="L-5"><a href="#L-5"><span class="linenos">  5</span></a></span>
+<span id="L-6"><a href="#L-6"><span class="linenos">  6</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">PIL</span><span class="w"> </span><span class="kn">import</span> <span class="n">Image</span></span>
+<span id="L-7"><a href="#L-7"><span class="linenos">  7</span></a><span class="kn">from</span><span class="w"> </span><span class="nn">ultralytics</span><span class="w"> </span><span class="kn">import</span> <span class="n">YOLO</span></span>
+<span id="L-8"><a href="#L-8"><span class="linenos">  8</span></a></span>
+<span id="L-9"><a href="#L-9"><span class="linenos">  9</span></a></span>
+<span id="L-10"><a href="#L-10"><span class="linenos"> 10</span></a><span class="k">def</span><span class="w"> </span><span class="nf">inspect_package</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">weights_path</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.201</span><span class="p">):</span></span>
+<span id="L-11"><a href="#L-11"><span class="linenos"> 11</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run YOLOv8 inference on one image after basic input validation.</span></span>
+<span id="L-12"><a href="#L-12"><span class="linenos"> 12</span></a></span>
+<span id="L-13"><a href="#L-13"><span class="linenos"> 13</span></a><span class="sd">    Args:</span></span>
+<span id="L-14"><a href="#L-14"><span class="linenos"> 14</span></a><span class="sd">        image_path: Path to an image readable by Pillow.</span></span>
+<span id="L-15"><a href="#L-15"><span class="linenos"> 15</span></a><span class="sd">        weights_path: Path to a trained YOLO checkpoint (``.pt``).</span></span>
+<span id="L-16"><a href="#L-16"><span class="linenos"> 16</span></a><span class="sd">        confidence: Minimum detection confidence, between 0 and 1.</span></span>
+<span id="L-17"><a href="#L-17"><span class="linenos"> 17</span></a></span>
+<span id="L-18"><a href="#L-18"><span class="linenos"> 18</span></a><span class="sd">    Returns:</span></span>
+<span id="L-19"><a href="#L-19"><span class="linenos"> 19</span></a><span class="sd">        list[dict]: A list of detections, each with ``defect`` (class name),</span></span>
+<span id="L-20"><a href="#L-20"><span class="linenos"> 20</span></a><span class="sd">        ``confidence`` (rounded score), and ``box`` (four pixel coordinates</span></span>
+<span id="L-21"><a href="#L-21"><span class="linenos"> 21</span></a><span class="sd">        ``[x1, y1, x2, y2]``). Returns an empty list if none are detected.</span></span>
+<span id="L-22"><a href="#L-22"><span class="linenos"> 22</span></a></span>
+<span id="L-23"><a href="#L-23"><span class="linenos"> 23</span></a><span class="sd">    Raises:</span></span>
+<span id="L-24"><a href="#L-24"><span class="linenos"> 24</span></a><span class="sd">        FileNotFoundError: If the image or weights file does not exist.</span></span>
+<span id="L-25"><a href="#L-25"><span class="linenos"> 25</span></a><span class="sd">        ValueError: If confidence is invalid or the image cannot be read.</span></span>
+<span id="L-26"><a href="#L-26"><span class="linenos"> 26</span></a></span>
+<span id="L-27"><a href="#L-27"><span class="linenos"> 27</span></a><span class="sd">    Notes:</span></span>
+<span id="L-28"><a href="#L-28"><span class="linenos"> 28</span></a><span class="sd">        File and image checks cannot determine whether a readable image</span></span>
+<span id="L-29"><a href="#L-29"><span class="linenos"> 29</span></a><span class="sd">        actually depicts pork rasher packaging or another unsupported domain.</span></span>
+<span id="L-30"><a href="#L-30"><span class="linenos"> 30</span></a><span class="sd">        Model predictions require separate accuracy validation. YOLO may</span></span>
+<span id="L-31"><a href="#L-31"><span class="linenos"> 31</span></a><span class="sd">        raise library-specific errors for invalid checkpoint contents.</span></span>
+<span id="L-32"><a href="#L-32"><span class="linenos"> 32</span></a><span class="sd">    &quot;&quot;&quot;</span></span>
+<span id="L-33"><a href="#L-33"><span class="linenos"> 33</span></a>    <span class="n">image_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span></span>
+<span id="L-34"><a href="#L-34"><span class="linenos"> 34</span></a>    <span class="n">weights_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">weights_path</span><span class="p">)</span></span>
+<span id="L-35"><a href="#L-35"><span class="linenos"> 35</span></a></span>
+<span id="L-36"><a href="#L-36"><span class="linenos"> 36</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">image_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span></span>
+<span id="L-37"><a href="#L-37"><span class="linenos"> 37</span></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input image not found: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></span>
+<span id="L-38"><a href="#L-38"><span class="linenos"> 38</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">weights_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span></span>
+<span id="L-39"><a href="#L-39"><span class="linenos"> 39</span></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model weights not found: </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></span>
+<span id="L-40"><a href="#L-40"><span class="linenos"> 40</span></a>    <span class="k">if</span> <span class="p">(</span></span>
+<span id="L-41"><a href="#L-41"><span class="linenos"> 41</span></a>        <span class="nb">isinstance</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span></span>
+<span id="L-42"><a href="#L-42"><span class="linenos"> 42</span></a>        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span></span>
+<span id="L-43"><a href="#L-43"><span class="linenos"> 43</span></a>        <span class="ow">or</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">confidence</span><span class="p">)</span></span>
+<span id="L-44"><a href="#L-44"><span class="linenos"> 44</span></a>        <span class="ow">or</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">confidence</span> <span class="o">&lt;=</span> <span class="mi">1</span></span>
+<span id="L-45"><a href="#L-45"><span class="linenos"> 45</span></a>    <span class="p">):</span></span>
+<span id="L-46"><a href="#L-46"><span class="linenos"> 46</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;confidence must be a finite number between 0 and 1&quot;</span><span class="p">)</span></span>
+<span id="L-47"><a href="#L-47"><span class="linenos"> 47</span></a></span>
+<span id="L-48"><a href="#L-48"><span class="linenos"> 48</span></a>    <span class="k">try</span><span class="p">:</span></span>
+<span id="L-49"><a href="#L-49"><span class="linenos"> 49</span></a>        <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">image</span><span class="p">:</span></span>
+<span id="L-50"><a href="#L-50"><span class="linenos"> 50</span></a>            <span class="n">image</span><span class="o">.</span><span class="n">verify</span><span class="p">()</span></span>
+<span id="L-51"><a href="#L-51"><span class="linenos"> 51</span></a>    <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">SyntaxError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span></span>
+<span id="L-52"><a href="#L-52"><span class="linenos"> 52</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input image is unreadable: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span></span>
+<span id="L-53"><a href="#L-53"><span class="linenos"> 53</span></a></span>
+<span id="L-54"><a href="#L-54"><span class="linenos"> 54</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">weights_path</span><span class="p">))</span></span>
+<span id="L-55"><a href="#L-55"><span class="linenos"> 55</span></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span></span>
+<span id="L-56"><a href="#L-56"><span class="linenos"> 56</span></a>        <span class="n">source</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">),</span></span>
+<span id="L-57"><a href="#L-57"><span class="linenos"> 57</span></a>        <span class="n">conf</span><span class="o">=</span><span class="n">confidence</span><span class="p">,</span></span>
+<span id="L-58"><a href="#L-58"><span class="linenos"> 58</span></a>        <span class="n">imgsz</span><span class="o">=</span><span class="mi">640</span><span class="p">,</span></span>
+<span id="L-59"><a href="#L-59"><span class="linenos"> 59</span></a>        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></span>
+<span id="L-60"><a href="#L-60"><span class="linenos"> 60</span></a>    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span></span>
+<span id="L-61"><a href="#L-61"><span class="linenos"> 61</span></a></span>
+<span id="L-62"><a href="#L-62"><span class="linenos"> 62</span></a>    <span class="n">detections</span> <span class="o">=</span> <span class="p">[]</span></span>
+<span id="L-63"><a href="#L-63"><span class="linenos"> 63</span></a>    <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span></span>
+<span id="L-64"><a href="#L-64"><span class="linenos"> 64</span></a>        <span class="n">detections</span><span class="o">.</span><span class="n">append</span><span class="p">({</span></span>
+<span id="L-65"><a href="#L-65"><span class="linenos"> 65</span></a>            <span class="s2">&quot;defect&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="o">.</span><span class="n">item</span><span class="p">())],</span></span>
+<span id="L-66"><a href="#L-66"><span class="linenos"> 66</span></a>            <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="mi">3</span><span class="p">),</span></span>
+<span id="L-67"><a href="#L-67"><span class="linenos"> 67</span></a>            <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()],</span></span>
+<span id="L-68"><a href="#L-68"><span class="linenos"> 68</span></a>        <span class="p">})</span></span>
+<span id="L-69"><a href="#L-69"><span class="linenos"> 69</span></a></span>
+<span id="L-70"><a href="#L-70"><span class="linenos"> 70</span></a>    <span class="k">return</span> <span class="n">detections</span></span></pre></div>
 
 
             </section>
@@ -97,46 +132,84 @@ inspection    </h1>
 
     </div>
     <a class="headerlink" href="#inspect_package"></a>
-            <div class="pdoc-code codehilite"><pre><span></span><span id="inspect_package-7"><a href="#inspect_package-7"><span class="linenos"> 7</span></a><span class="k">def</span><span class="w"> </span><span class="nf">inspect_package</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">weights_path</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.201</span><span class="p">):</span>
-</span><span id="inspect_package-8"><a href="#inspect_package-8"><span class="linenos"> 8</span></a><span class="w">    </span><span class="sd">"""Detect packaging defects in an image.</span>
-</span><span id="inspect_package-9"><a href="#inspect_package-9"><span class="linenos"> 9</span></a>
-</span><span id="inspect_package-10"><a href="#inspect_package-10"><span class="linenos">10</span></a><span class="sd">    Args:</span>
-</span><span id="inspect_package-11"><a href="#inspect_package-11"><span class="linenos">11</span></a><span class="sd">        image_path: Path to the input image.</span>
-</span><span id="inspect_package-12"><a href="#inspect_package-12"><span class="linenos">12</span></a><span class="sd">        weights_path: Path to the trained YOLO weights.</span>
-</span><span id="inspect_package-13"><a href="#inspect_package-13"><span class="linenos">13</span></a><span class="sd">        confidence: Minimum detection confidence.</span>
-</span><span id="inspect_package-14"><a href="#inspect_package-14"><span class="linenos">14</span></a>
-</span><span id="inspect_package-15"><a href="#inspect_package-15"><span class="linenos">15</span></a><span class="sd">    Returns:</span>
-</span><span id="inspect_package-16"><a href="#inspect_package-16"><span class="linenos">16</span></a><span class="sd">        List of detections with defect name, confidence, and bounding box.</span>
-</span><span id="inspect_package-17"><a href="#inspect_package-17"><span class="linenos">17</span></a><span class="sd">    """</span>
-</span><span id="inspect_package-18"><a href="#inspect_package-18"><span class="linenos">18</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">weights_path</span><span class="p">))</span>
-</span><span id="inspect_package-19"><a href="#inspect_package-19"><span class="linenos">19</span></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span>
-</span><span id="inspect_package-20"><a href="#inspect_package-20"><span class="linenos">20</span></a>        <span class="n">source</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">),</span>
-</span><span id="inspect_package-21"><a href="#inspect_package-21"><span class="linenos">21</span></a>        <span class="n">conf</span><span class="o">=</span><span class="n">confidence</span><span class="p">,</span>
-</span><span id="inspect_package-22"><a href="#inspect_package-22"><span class="linenos">22</span></a>        <span class="n">imgsz</span><span class="o">=</span><span class="mi">640</span><span class="p">,</span>
-</span><span id="inspect_package-23"><a href="#inspect_package-23"><span class="linenos">23</span></a>        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span>
-</span><span id="inspect_package-24"><a href="#inspect_package-24"><span class="linenos">24</span></a>    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span>
-</span><span id="inspect_package-25"><a href="#inspect_package-25"><span class="linenos">25</span></a>
-</span><span id="inspect_package-26"><a href="#inspect_package-26"><span class="linenos">26</span></a>    <span class="n">detections</span> <span class="o">=</span> <span class="p">[]</span>
-</span><span id="inspect_package-27"><a href="#inspect_package-27"><span class="linenos">27</span></a>    <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span>
-</span><span id="inspect_package-28"><a href="#inspect_package-28"><span class="linenos">28</span></a>        <span class="n">detections</span><span class="o">.</span><span class="n">append</span><span class="p">({</span>
-</span><span id="inspect_package-29"><a href="#inspect_package-29"><span class="linenos">29</span></a>            <span class="s2">"defect"</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="o">.</span><span class="n">item</span><span class="p">())],</span>
-</span><span id="inspect_package-30"><a href="#inspect_package-30"><span class="linenos">30</span></a>            <span class="s2">"confidence"</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="mi">3</span><span class="p">),</span>
-</span><span id="inspect_package-31"><a href="#inspect_package-31"><span class="linenos">31</span></a>            <span class="s2">"box"</span><span class="p">:</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()],</span>
-</span><span id="inspect_package-32"><a href="#inspect_package-32"><span class="linenos">32</span></a>        <span class="p">})</span>
-</span><span id="inspect_package-33"><a href="#inspect_package-33"><span class="linenos">33</span></a>
-</span><span id="inspect_package-34"><a href="#inspect_package-34"><span class="linenos">34</span></a>    <span class="k">return</span> <span class="n">detections</span>
-</span></pre></div>
+            <div class="pdoc-code codehilite"><pre><span></span><span id="inspect_package-10"><a href="#inspect_package-10"><span class="linenos"> 10</span></a><span class="k">def</span><span class="w"> </span><span class="nf">inspect_package</span><span class="p">(</span><span class="n">image_path</span><span class="p">,</span> <span class="n">weights_path</span><span class="p">,</span> <span class="n">confidence</span><span class="o">=</span><span class="mf">0.201</span><span class="p">):</span></span>
+<span id="inspect_package-11"><a href="#inspect_package-11"><span class="linenos"> 11</span></a><span class="w">    </span><span class="sd">&quot;&quot;&quot;Run YOLOv8 inference on one image after basic input validation.</span></span>
+<span id="inspect_package-12"><a href="#inspect_package-12"><span class="linenos"> 12</span></a></span>
+<span id="inspect_package-13"><a href="#inspect_package-13"><span class="linenos"> 13</span></a><span class="sd">    Args:</span></span>
+<span id="inspect_package-14"><a href="#inspect_package-14"><span class="linenos"> 14</span></a><span class="sd">        image_path: Path to an image readable by Pillow.</span></span>
+<span id="inspect_package-15"><a href="#inspect_package-15"><span class="linenos"> 15</span></a><span class="sd">        weights_path: Path to a trained YOLO checkpoint (``.pt``).</span></span>
+<span id="inspect_package-16"><a href="#inspect_package-16"><span class="linenos"> 16</span></a><span class="sd">        confidence: Minimum detection confidence, between 0 and 1.</span></span>
+<span id="inspect_package-17"><a href="#inspect_package-17"><span class="linenos"> 17</span></a></span>
+<span id="inspect_package-18"><a href="#inspect_package-18"><span class="linenos"> 18</span></a><span class="sd">    Returns:</span></span>
+<span id="inspect_package-19"><a href="#inspect_package-19"><span class="linenos"> 19</span></a><span class="sd">        list[dict]: A list of detections, each with ``defect`` (class name),</span></span>
+<span id="inspect_package-20"><a href="#inspect_package-20"><span class="linenos"> 20</span></a><span class="sd">        ``confidence`` (rounded score), and ``box`` (four pixel coordinates</span></span>
+<span id="inspect_package-21"><a href="#inspect_package-21"><span class="linenos"> 21</span></a><span class="sd">        ``[x1, y1, x2, y2]``). Returns an empty list if none are detected.</span></span>
+<span id="inspect_package-22"><a href="#inspect_package-22"><span class="linenos"> 22</span></a></span>
+<span id="inspect_package-23"><a href="#inspect_package-23"><span class="linenos"> 23</span></a><span class="sd">    Raises:</span></span>
+<span id="inspect_package-24"><a href="#inspect_package-24"><span class="linenos"> 24</span></a><span class="sd">        FileNotFoundError: If the image or weights file does not exist.</span></span>
+<span id="inspect_package-25"><a href="#inspect_package-25"><span class="linenos"> 25</span></a><span class="sd">        ValueError: If confidence is invalid or the image cannot be read.</span></span>
+<span id="inspect_package-26"><a href="#inspect_package-26"><span class="linenos"> 26</span></a></span>
+<span id="inspect_package-27"><a href="#inspect_package-27"><span class="linenos"> 27</span></a><span class="sd">    Notes:</span></span>
+<span id="inspect_package-28"><a href="#inspect_package-28"><span class="linenos"> 28</span></a><span class="sd">        File and image checks cannot determine whether a readable image</span></span>
+<span id="inspect_package-29"><a href="#inspect_package-29"><span class="linenos"> 29</span></a><span class="sd">        actually depicts pork rasher packaging or another unsupported domain.</span></span>
+<span id="inspect_package-30"><a href="#inspect_package-30"><span class="linenos"> 30</span></a><span class="sd">        Model predictions require separate accuracy validation. YOLO may</span></span>
+<span id="inspect_package-31"><a href="#inspect_package-31"><span class="linenos"> 31</span></a><span class="sd">        raise library-specific errors for invalid checkpoint contents.</span></span>
+<span id="inspect_package-32"><a href="#inspect_package-32"><span class="linenos"> 32</span></a><span class="sd">    &quot;&quot;&quot;</span></span>
+<span id="inspect_package-33"><a href="#inspect_package-33"><span class="linenos"> 33</span></a>    <span class="n">image_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span></span>
+<span id="inspect_package-34"><a href="#inspect_package-34"><span class="linenos"> 34</span></a>    <span class="n">weights_path</span> <span class="o">=</span> <span class="n">Path</span><span class="p">(</span><span class="n">weights_path</span><span class="p">)</span></span>
+<span id="inspect_package-35"><a href="#inspect_package-35"><span class="linenos"> 35</span></a></span>
+<span id="inspect_package-36"><a href="#inspect_package-36"><span class="linenos"> 36</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">image_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span></span>
+<span id="inspect_package-37"><a href="#inspect_package-37"><span class="linenos"> 37</span></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input image not found: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></span>
+<span id="inspect_package-38"><a href="#inspect_package-38"><span class="linenos"> 38</span></a>    <span class="k">if</span> <span class="ow">not</span> <span class="n">weights_path</span><span class="o">.</span><span class="n">is_file</span><span class="p">():</span></span>
+<span id="inspect_package-39"><a href="#inspect_package-39"><span class="linenos"> 39</span></a>        <span class="k">raise</span> <span class="ne">FileNotFoundError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Model weights not found: </span><span class="si">{</span><span class="n">weights_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span></span>
+<span id="inspect_package-40"><a href="#inspect_package-40"><span class="linenos"> 40</span></a>    <span class="k">if</span> <span class="p">(</span></span>
+<span id="inspect_package-41"><a href="#inspect_package-41"><span class="linenos"> 41</span></a>        <span class="nb">isinstance</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="nb">bool</span><span class="p">)</span></span>
+<span id="inspect_package-42"><a href="#inspect_package-42"><span class="linenos"> 42</span></a>        <span class="ow">or</span> <span class="ow">not</span> <span class="nb">isinstance</span><span class="p">(</span><span class="n">confidence</span><span class="p">,</span> <span class="p">(</span><span class="nb">int</span><span class="p">,</span> <span class="nb">float</span><span class="p">))</span></span>
+<span id="inspect_package-43"><a href="#inspect_package-43"><span class="linenos"> 43</span></a>        <span class="ow">or</span> <span class="ow">not</span> <span class="n">math</span><span class="o">.</span><span class="n">isfinite</span><span class="p">(</span><span class="n">confidence</span><span class="p">)</span></span>
+<span id="inspect_package-44"><a href="#inspect_package-44"><span class="linenos"> 44</span></a>        <span class="ow">or</span> <span class="ow">not</span> <span class="mi">0</span> <span class="o">&lt;=</span> <span class="n">confidence</span> <span class="o">&lt;=</span> <span class="mi">1</span></span>
+<span id="inspect_package-45"><a href="#inspect_package-45"><span class="linenos"> 45</span></a>    <span class="p">):</span></span>
+<span id="inspect_package-46"><a href="#inspect_package-46"><span class="linenos"> 46</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="s2">&quot;confidence must be a finite number between 0 and 1&quot;</span><span class="p">)</span></span>
+<span id="inspect_package-47"><a href="#inspect_package-47"><span class="linenos"> 47</span></a></span>
+<span id="inspect_package-48"><a href="#inspect_package-48"><span class="linenos"> 48</span></a>    <span class="k">try</span><span class="p">:</span></span>
+<span id="inspect_package-49"><a href="#inspect_package-49"><span class="linenos"> 49</span></a>        <span class="k">with</span> <span class="n">Image</span><span class="o">.</span><span class="n">open</span><span class="p">(</span><span class="n">image_path</span><span class="p">)</span> <span class="k">as</span> <span class="n">image</span><span class="p">:</span></span>
+<span id="inspect_package-50"><a href="#inspect_package-50"><span class="linenos"> 50</span></a>            <span class="n">image</span><span class="o">.</span><span class="n">verify</span><span class="p">()</span></span>
+<span id="inspect_package-51"><a href="#inspect_package-51"><span class="linenos"> 51</span></a>    <span class="k">except</span> <span class="p">(</span><span class="ne">OSError</span><span class="p">,</span> <span class="ne">ValueError</span><span class="p">,</span> <span class="ne">SyntaxError</span><span class="p">)</span> <span class="k">as</span> <span class="n">exc</span><span class="p">:</span></span>
+<span id="inspect_package-52"><a href="#inspect_package-52"><span class="linenos"> 52</span></a>        <span class="k">raise</span> <span class="ne">ValueError</span><span class="p">(</span><span class="sa">f</span><span class="s2">&quot;Input image is unreadable: </span><span class="si">{</span><span class="n">image_path</span><span class="si">}</span><span class="s2">&quot;</span><span class="p">)</span> <span class="kn">from</span><span class="w"> </span><span class="nn">exc</span></span>
+<span id="inspect_package-53"><a href="#inspect_package-53"><span class="linenos"> 53</span></a></span>
+<span id="inspect_package-54"><a href="#inspect_package-54"><span class="linenos"> 54</span></a>    <span class="n">model</span> <span class="o">=</span> <span class="n">YOLO</span><span class="p">(</span><span class="nb">str</span><span class="p">(</span><span class="n">weights_path</span><span class="p">))</span></span>
+<span id="inspect_package-55"><a href="#inspect_package-55"><span class="linenos"> 55</span></a>    <span class="n">result</span> <span class="o">=</span> <span class="n">model</span><span class="o">.</span><span class="n">predict</span><span class="p">(</span></span>
+<span id="inspect_package-56"><a href="#inspect_package-56"><span class="linenos"> 56</span></a>        <span class="n">source</span><span class="o">=</span><span class="nb">str</span><span class="p">(</span><span class="n">image_path</span><span class="p">),</span></span>
+<span id="inspect_package-57"><a href="#inspect_package-57"><span class="linenos"> 57</span></a>        <span class="n">conf</span><span class="o">=</span><span class="n">confidence</span><span class="p">,</span></span>
+<span id="inspect_package-58"><a href="#inspect_package-58"><span class="linenos"> 58</span></a>        <span class="n">imgsz</span><span class="o">=</span><span class="mi">640</span><span class="p">,</span></span>
+<span id="inspect_package-59"><a href="#inspect_package-59"><span class="linenos"> 59</span></a>        <span class="n">verbose</span><span class="o">=</span><span class="kc">False</span><span class="p">,</span></span>
+<span id="inspect_package-60"><a href="#inspect_package-60"><span class="linenos"> 60</span></a>    <span class="p">)[</span><span class="mi">0</span><span class="p">]</span></span>
+<span id="inspect_package-61"><a href="#inspect_package-61"><span class="linenos"> 61</span></a></span>
+<span id="inspect_package-62"><a href="#inspect_package-62"><span class="linenos"> 62</span></a>    <span class="n">detections</span> <span class="o">=</span> <span class="p">[]</span></span>
+<span id="inspect_package-63"><a href="#inspect_package-63"><span class="linenos"> 63</span></a>    <span class="k">for</span> <span class="n">box</span> <span class="ow">in</span> <span class="n">result</span><span class="o">.</span><span class="n">boxes</span><span class="p">:</span></span>
+<span id="inspect_package-64"><a href="#inspect_package-64"><span class="linenos"> 64</span></a>        <span class="n">detections</span><span class="o">.</span><span class="n">append</span><span class="p">({</span></span>
+<span id="inspect_package-65"><a href="#inspect_package-65"><span class="linenos"> 65</span></a>            <span class="s2">&quot;defect&quot;</span><span class="p">:</span> <span class="n">result</span><span class="o">.</span><span class="n">names</span><span class="p">[</span><span class="nb">int</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">cls</span><span class="o">.</span><span class="n">item</span><span class="p">())],</span></span>
+<span id="inspect_package-66"><a href="#inspect_package-66"><span class="linenos"> 66</span></a>            <span class="s2">&quot;confidence&quot;</span><span class="p">:</span> <span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">box</span><span class="o">.</span><span class="n">conf</span><span class="o">.</span><span class="n">item</span><span class="p">()),</span> <span class="mi">3</span><span class="p">),</span></span>
+<span id="inspect_package-67"><a href="#inspect_package-67"><span class="linenos"> 67</span></a>            <span class="s2">&quot;box&quot;</span><span class="p">:</span> <span class="p">[</span><span class="nb">round</span><span class="p">(</span><span class="nb">float</span><span class="p">(</span><span class="n">x</span><span class="p">),</span> <span class="mi">1</span><span class="p">)</span> <span class="k">for</span> <span class="n">x</span> <span class="ow">in</span> <span class="n">box</span><span class="o">.</span><span class="n">xyxy</span><span class="p">[</span><span class="mi">0</span><span class="p">]</span><span class="o">.</span><span class="n">tolist</span><span class="p">()],</span></span>
+<span id="inspect_package-68"><a href="#inspect_package-68"><span class="linenos"> 68</span></a>        <span class="p">})</span></span>
+<span id="inspect_package-69"><a href="#inspect_package-69"><span class="linenos"> 69</span></a></span>
+<span id="inspect_package-70"><a href="#inspect_package-70"><span class="linenos"> 70</span></a>    <span class="k">return</span> <span class="n">detections</span></span></pre></div>
 
 
-            <div class="docstring"><p>Detect packaging defects in an image.</p>
-
-<p>Args:
-    image_path: Path to the input image.
-    weights_path: Path to the trained YOLO weights.
-    confidence: Minimum detection confidence.</p>
-
-<p>Returns:
-    List of detections with defect name, confidence, and bounding box.</p>
+            <div class="docstring">
+<p>Run YOLOv8 inference on one image after basic input validation.</p>
+<h4>Args</h4><ul>
+<li><code>image_path</code>: Path to an image readable by Pillow.</li>
+<li><code>weights_path</code>: Path to a trained YOLO checkpoint (<code>.pt</code>).</li>
+<li><code>confidence</code>: Minimum detection confidence, between 0 and 1.</li>
+</ul>
+<h4>Returns</h4>
+<p>A list of detections, each containing <code>defect</code> (class name), <code>confidence</code> (rounded score), and <code>box</code> (<code>[x1, y1, x2, y2]</code> coordinates). Returns an empty list when no defects are detected.</p>
+<h4>Raises</h4><ul>
+<li><code>FileNotFoundError</code>: Image or weights file does not exist.</li>
+<li><code>ValueError</code>: Confidence is invalid or image fails Pillow verification.</li>
+</ul>
+<h4>Notes</h4>
+<p>These checks do not establish whether an image belongs to the supported pork-rasher packaging domain. Unsupported packaging content cannot be automatically identified. YOLO may raise library-specific errors for invalid checkpoint contents.</p>
 </div>
 
 
