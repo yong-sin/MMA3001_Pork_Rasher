@@ -169,8 +169,10 @@ Detailed results, experimental settings and limitations:
 - [V4 baseline evaluation results](results/v4_baseline_evaluation_results.md)
 
 ## API Documentation
-
 The [`docs/`](docs/) folder contains [`inspection.html`](docs/inspection.html), [`dataset_preparation.html`](docs/dataset_preparation.html) and an [`index.html`](docs/index.html) guide to the source-code functions, parameters, return values, exceptions and implementation.
+
+**Viewing the HTML documentation:**
+After cloning or downloading the repository, navigate to the docs/ folder and open index.html in a web browser (e.g., Google Chrome or Microsoft Edge). Use the links on the homepage to access the individual API documentation pages.
 
 The source code and docstrings should be treated as authoritative if the documentation needs updating.
 
