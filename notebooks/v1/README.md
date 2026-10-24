@@ -4,12 +4,12 @@ This folder contains the training, evaluation and improvement experiments for YO
 
 ## Notebooks
 
-- `MMA3001_v1_training.ipynb` - Baseline YOLOv8n training.
-- `MMA3001_v1_evaluation.ipynb` - Baseline model evaluation on the test set.
+- `MMA3001_v1_Training.ipynb` - Baseline YOLOv8n training.
+- `MMA3001_v1_Evaluation.ipynb` - Baseline model evaluation on the test set.
 - `MMA3001_v1_no_mosaic.ipynb` - YOLOv8n training with mosaic augmentation disabled.
 - `MMA3001_v1_checking.ipynb` - Model comparison, confidence threshold analysis and final model selection.
 - `MMA3001_v1_inference.ipynb` - Package inspection using the selected no-mosaic model, including bounding-box visualisation and automated tests.
-- `MMA3001_v1_learning_rate.ipynb` - AdamW learning-rate experiments and validation comparisons for Dataset V1.
+- `MMA3001_v1_learning_rate_exploration.ipynb` - AdamW learning-rate experiments and validation comparisons for Dataset V1.
 - `MMA3001_v1_resolution_960.ipynb` — Investigates 960-pixel training and compares validation performance with the 640-trained no-mosaic model.
    
 
