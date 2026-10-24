@@ -36,4 +36,4 @@ Both models were evaluated on 119 validation images (154 labelled instances) wit
 
 Source overlap is checked using Roboflow `.rf.` filename identifiers, so differently named duplicates may not be detected. The test set contains only seven twisted-meat instances, which limits conclusions for that class. Validation-set comparisons and test-set evaluation are reported separately.
 
-Learning-rate tuning is documented separately in `MMA3001_v1_learning_rate.ipynb`.
+Learning-rate tuning is documented separately in `MMA3001_v1_learning_rate_exploration.ipynb`.
