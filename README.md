@@ -38,10 +38,7 @@ python -m pip install -r requirements.txt
 #### 6. Run the required workflow
 - For evaluation, load the existing checkpoint and run the notebook cells without retraining.
 - For a new training experiment, enable the relevant training flag in the selected notebook.
-- For the final inspection demonstration, run: 
-```bash
-notebooks/v1/MMA3001_v1_inference.ipynb
-```
+- For the final inspection demonstration, run **notebooks/v1/MMA3001_v1_inference.ipynb**
 #### 7. Run the automated software tests
 ```bash
 python -m pytest -q test_inspection.py tests/test_dataset_preparation.py
