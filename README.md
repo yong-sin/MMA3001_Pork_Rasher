@@ -82,15 +82,29 @@ The **independent V1 test results** were less favourable to no-mosaic: the basel
 
 **Industrial-use limitation:** This is an academic proof of concept, not a validated industrial quality-control system. Limited data for some classes, false detections, missed defects, and untested changes in lighting, cameras and packaging conditions would need to be addressed before deployment. Larger independent production datasets and application-specific acceptance criteria would be needed.
 
-## Installation and setup
+## Installation and Automated Testing
 The notebooks were developed primarily in Google Colab. A GPU is useful for model training; dataset tests, documentation and using existing checkpoint files do not require repeating training.
 ### Obtain the repository and dependencies
-From a terminal:
+Clone the GitHub repository, from a terminal:
 ```bash
 git clone https://github.com/yong-sin/MMA3001_Pork_Rasher.git
 cd MMA3001_Pork_Rasher
+```
+Install the required Python dependencies:
+```bash
 python -m pip install -r requirements.txt
 ```
+Run the automated tests:
+```bash
+python -m pytest -q test_inspection.py tests/test_dataset_preparation.py
+```
+The repository contains 15 automated tests:
+- 9 inspection-function tests, including invalid input handling.
+- 6 dataset-preparation tests.
+
+All 15 tests passed in the verified local environment.
+These tests verify software functionality rather than model detection accuracy.
+
 The [`requirements.txt`](requirements.txt) file lists the project packages, including Ultralytics, PyTorch, NumPy, Pandas, Matplotlib, Pillow, PyYAML, pytest and pdoc. Installation of GPU-enabled PyTorch depends on the environment. If the repository is private, cloning requires authorised GitHub access.
 
 For Google Colab, use **!** before shell commands (for example, !python -m pip install -r requirements.txt).
@@ -110,8 +124,8 @@ The reorganised training notebooks keep retraining **disabled by default**, usin
 | Train/load the V2 YOLOv8n baseline | [`V2 Training`](notebooks/v2/MMA3001_v2_training.ipynb) |
 | Evaluate the V2 YOLOv8n baseline | [`V2 Validation`](notebooks/v2/MMA3001_v2_validation.ipynb) |
 | Study the V2 YOLOv8s experiment | [`V2 Improvement`](notebooks/v2/MMA3001_v2_improvement.ipynb) |
-| Train/load the V1 baseline | [`V1 Training`](notebooks/v1/MA3001_v1_training.ipynb) |
-| Evaluate the V1 baseline | [`V1 Evaluation`](notebooks/v1/MMA3001_v1_evaluation.ipynb) |
+| Train/load the V1 baseline | [V1 Training](notebooks/v1/MA3001_v1_Training.ipynb) |
+| Evaluate the V1 baseline | [V1 Evaluation](notebooks/v1/MMA3001_v1_Evaluation.ipynb) |
 | Explore the V1 no-mosaic model | [`V1 No Mosaic`](notebooks/v1/MMA3001_v1_no_mosaic.ipynb) |
 | Compare V1 learning rates | [`V1 Learning Rate`](notebooks/v1/MMA3001_v1_learning_rate_exploration.ipynb) |
 | Compare V1 models, thresholds and final test behaviour | [`V1 Checking`](notebooks/v1/MMA3001_v1_checking.ipynb) |
@@ -154,17 +168,11 @@ Detailed results, experimental settings and limitations:
 - [V2 evaluation results](results/v2_evaluation_results.md)
 - [V4 baseline evaluation results](results/v4_baseline_evaluation_results.md)
 
-## Automated tests and API documentation
-Run the source-code tests from the repository root:
-```bash
-python -m pytest -q test_inspection.py tests/test_dataset_preparation.py
-```
-- [`test_inspection.py`](test_inspection.py) checks the inspection function with mocked zero-detection and one-detection predictions (2 tests).
-- [`tests/test_dataset_preparation.py`](tests/test_dataset_preparation.py) checks dataset cleaning, annotation validation and preparation consistency (6 tests).
-- Results are recorded in [`test_report.txt`](test_report.txt) and [`results/test_report.txt`](results/test_report.txt).
-These are software unit tests, not measures of YOLO detection accuracy. The actual detection metrics come from held-out evaluation.
+## API Documentation
 
-The [`docs/`](docs/) folder contains [`inspection.html`](docs/inspection.html), [`dataset_preparation.html`](docs/dataset_preparation.html) and an [`index.html`](docs/index.html) guide to the source-code functions, parameters, returns and implementation. Source code and docstrings should be treated as authoritative if documentation needs updating.
+The [`docs/`](docs/) folder contains [`inspection.html`](docs/inspection.html), [`dataset_preparation.html`](docs/dataset_preparation.html) and an [`index.html`](docs/index.html) guide to the source-code functions, parameters, return values, exceptions and implementation.
+
+The source code and docstrings should be treated as authoritative if the documentation needs updating.
 
 ## Assumptions, acknowledgements and licence
 The experiments are limited by the available Roboflow labels and dataset splits. The .rf. filename rule can miss differently named visual duplicates; rare defect classes have few examples; and model performance has not been independently validated under production conditions. For example, Dataset V4's test set has no labelled wrinkle examples, so its test metrics cannot establish wrinkle recall or average precision.
