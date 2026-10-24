@@ -14,10 +14,44 @@ Packaging inspection can help identify products that may need further quality ch
 
 The defect categories depend on the Roboflow dataset version. V1 and V2 contain loose-meat, packaging-error, twisted-meat and unsealed; V4 additionally includes wrinkle.
 
+## Quick Start! How to run this project?
+The project can be reproduced without retraining every model. Existing trained checkpoints can be used to repeat evaluation and inference, while training can be enabled separately when required.
+#### 1. Clone the repository
+```bash
+git clone https://github.com/yong-sin/MMA3001_Pork_Rasher.git
+cd MMA3001_Pork_Rasher
+```
+#### 2. Install the required packages
+```bash
+python -m pip install -r requirements.txt
+```
+#### 3. Download the required dataset
+- Obtain Dataset V1, V2 or V4 from the original Roboflow dataset in YOLO format.
+- Select the dataset version corresponding to the notebook being run.
+#### 4. Download the matching trained checkpoint
+- Download the required best.pt file from the shared model-weight folder.
+- The selected inspection model is the V1 YOLOv8n, 640 px, no-mosaic model.
+#### 5. Configure notebook paths
+- Open the required notebook in Google Colab.
+- Update PROJECT_ROOT, dataset ZIP, output and checkpoint paths to match your environment.
+- Ensure src/dataset_preparation.py is available.
+#### 6. Run the required workflow
+- For evaluation, load the existing checkpoint and run the notebook cells without retraining.
+- For a new training experiment, enable the relevant training flag in the selected notebook.
+- For the final inspection demonstration, run: 
+```bash
+notebooks/v1/MMA3001_v1_inference.ipynb
+```
+#### 7. Run the automated software tests
+```bash
+python -m pytest -q test_inspection.py tests/test_dataset_preparation.py
+```
+The repository contains separate notebooks for the V1, V2 and V4 investigations. A complete notebook-to-task guide is provided in **Exactly Which Notebook Should I Run?** below.
+
 ## Repository structure
 | If you want to… | Open… |
 |---|---|
-| Start with the current V4 baseline | [`notebooks/baseline/`](notebooks/baseline/) |
+| Review the initial V4 baseline | [`notebooks/baseline/`](notebooks/baseline/) |
 | Review V1 baseline, no-mosaic and tuning work | [`notebooks/v1/`](notebooks/v1/) |
 | Compare YOLOv8n and YOLOv8s on V2 | [`notebooks/v2/`](notebooks/v2/) |
 | Understand dataset cleaning | [`src/dataset_preparation.py`](src/dataset_preparation.py) |
@@ -63,24 +97,6 @@ The shared folder is organised for the nine training configurations covered by t
 | V1 | YOLOv8n no mosaic, AdamW LR 0.0005, 50 epochs | Learning-rate/epoch experiment |
 
 Download the checkpoint matching the notebook you are running and update its weights/best.pt path. The notebook paths originally pointed to Google Drive folders used during development, so they are not automatically valid on another account. 
-
-### Selected model for the inspection demonstration
-The [`MMA3001_v1_inference.ipynb`](notebooks/v1/MMA3001_v1_inference.ipynb) demonstration uses the V1 YOLOv8n no-mosaic model at 640 px with a confidence threshold of 0.201. This is the selected model for the inspection demonstration, not a claim that it is the best model on all metrics.
-Validation results used to compare the V1 configurations (119 images, 154 labelled instances):
-| Metric | V1 baseline | V1 no mosaic (640 px) |
-|---|---:|---:|
-| Precision | **77.6%** | 64.1% |
-| Recall | 46.8% | **62.3%** |
-| mAP50 | 68.3% | **69.5%** |
-| mAP50–95 | **32.3%** | 32.1% |
-
-The no-mosaic configuration showed **higher validation recall** and a small improvement in validation mAP50, making it a useful candidate for an inspection demonstration focused on identifying potentially defective packages. This came with lower precision, so the trade-off matters.
-
-The **independent V1 test results** were less favourable to no-mosaic: the baseline achieved **58.2% mAP50** compared with **54.4%** for no-mosaic and had much higher precision (**72.1%** versus **52.8%**). No-mosaic had slightly higher test recall (**52.4%** versus **51.8%**), including packaging-error recall of **45.9%** versus **35.1%**. The test evaluations used different confidence settings, so the test results should be interpreted cautiously rather than used to claim a definitive fair ranking.
-
-**Selection and evaluation are separate:** Validation results informed the comparison of settings. Independent test results are reported to show their generalisation limits, rather than being used to select whichever model scored highest on the test set. The inference threshold of 0.201 is separate from the thresholds used to calculate the tabled evaluation metrics.
-
-**Industrial-use limitation:** This is an academic proof of concept, not a validated industrial quality-control system. Limited data for some classes, false detections, missed defects, and untested changes in lighting, cameras and packaging conditions would need to be addressed before deployment. Larger independent production datasets and application-specific acceptance criteria would be needed.
 
 ## Installation and Automated Testing
 The notebooks were developed primarily in Google Colab. A GPU is useful for model training; dataset tests, documentation and using existing checkpoint files do not require repeating training.
@@ -168,6 +184,24 @@ Detailed results, experimental settings and limitations:
 - [V2 evaluation results](results/v2_evaluation_results.md)
 - [V4 baseline evaluation results](results/v4_baseline_evaluation_results.md)
 
+### Selected model for the inspection demonstration
+The [`MMA3001_v1_inference.ipynb`](notebooks/v1/MMA3001_v1_inference.ipynb) demonstration uses the V1 YOLOv8n no-mosaic model at 640 px with a confidence threshold of 0.201. This is the selected model for the inspection demonstration, not a claim that it is the best model on all metrics.
+Validation results used to compare the V1 configurations (119 images, 154 labelled instances):
+| Metric | V1 baseline | V1 no mosaic (640 px) |
+|---|---:|---:|
+| Precision | **77.6%** | 64.1% |
+| Recall | 46.8% | **62.3%** |
+| mAP50 | 68.3% | **69.5%** |
+| mAP50–95 | **32.3%** | 32.1% |
+
+The no-mosaic configuration showed **higher validation recall** and a small improvement in validation mAP50, making it a useful candidate for an inspection demonstration focused on identifying potentially defective packages. This came with lower precision, so the trade-off matters.
+
+The **independent V1 test results** were less favourable to no-mosaic: the baseline achieved **58.2% mAP50** compared with **54.4%** for no-mosaic and had much higher precision (**72.1%** versus **52.8%**). No-mosaic had slightly higher test recall (**52.4%** versus **51.8%**), including packaging-error recall of **45.9%** versus **35.1%**. The test evaluations used different confidence settings, so the test results should be interpreted cautiously rather than used to claim a definitive fair ranking.
+
+**Selection and evaluation are separate:** Validation results informed the comparison of settings. Independent test results are reported to show their generalisation limits, rather than being used to select whichever model scored highest on the test set. The inference threshold of 0.201 is separate from the thresholds used to calculate the tabled evaluation metrics.
+
+**Industrial-use limitation:** This is an academic proof of concept, not a validated industrial quality-control system. Limited data for some classes, false detections, missed defects, and untested changes in lighting, cameras and packaging conditions would need to be addressed before deployment. Larger independent production datasets and application-specific acceptance criteria would be needed.
+
 ## API Documentation
 The [`docs/`](docs/) folder contains [`inspection.html`](docs/inspection.html), [`dataset_preparation.html`](docs/dataset_preparation.html) and an [`index.html`](docs/index.html) guide to the source-code functions, parameters, return values, exceptions and implementation.
 
@@ -185,7 +219,7 @@ Detection confidence is not a calibrated measure of defect certainty. Any practi
 The complete project report is available here: [View MMA3001 Project Report (PDF)](docs/MMA3001_Project_Report.pdf)
 
 ## AI assistance and verification
-ChatGPT provided substantial guidance during coding and documentation, particularly when structuring and revising Python and Colab code, explaining YOLOv8 settings, checking implementation logic, identifying potential bugs, and interpreting errors. It also assisted with dataset-cleaning workflows, organising GitHub folders and commits, drafting concise comments and docstrings, discussing limitations, and improving the clarity and professionalism of the README and other documentation.
+ChatGPT was used as a supporting tool during coding, analysis and documentation, particularly when structuring and revising Python and Colab code, explaining YOLOv8 settings, checking implementation logic, identifying potential bugs, and interpreting errors. It also assisted with dataset-cleaning workflows, organising GitHub folders and commits, drafting concise comments and docstrings, discussing limitations, and improving the clarity and professionalism of the README and other documentation.
 
 AI was used to help work through unfamiliar tasks and troubleshoot problems, not as evidence that code or models had been validated. Suggestions were checked against the actual notebooks, dataset audits, saved training and evaluation outputs, and automated test reports. Examples of corrections included resolving Google Drive path issues between accounts and clarifying which figures were validation results versus independent test results. Code changes needed to be reviewed and run in the project environment; a successful syntax check or a mocked unit test alone did not establish model accuracy.
 
