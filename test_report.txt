@@ -1,11 +1,2 @@
-============================= test session starts ==============================
-platform linux -- Python 3.13.16, pytest-8.4.2, pluggy-1.7.0 -- /usr/bin/python3
-cachedir: .pytest_cache
-rootdir: /content
-plugins: anyio-4.15.1, langsmith-0.14.11, platformdirs-4.13.4, typeguard-4.6.0
-collecting ... collected 2 items
-
-test_inspection.py::test_no_detections PASSED                            [ 50%]
-test_inspection.py::test_one_detection PASSED                            [100%]
-
-============================== 2 passed in 2.62s ===============================
+.........                                                                [100%]
+9 passed in 2.82s

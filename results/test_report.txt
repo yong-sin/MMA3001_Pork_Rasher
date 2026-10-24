@@ -1,7 +1,2 @@
-Dataset preparation tests
-6 passed (small generated YOLO datasets).
-
-Checks: source IDs, V4 holdout, V1 cleaning, repeat runs,
-preparation-record comparison, and dataset-version validation.
-
-Not tested: original V1-V4 ZIP files, saved YOLO weights or GPU runs.
+......                                                                   [100%]
+6 passed in 1.17s
